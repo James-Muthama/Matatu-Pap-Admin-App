@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Corrected Theme extending from Theme.AppCompat -->
+    <style name="Theme.MatatuPapAdminApp" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Custom background color -->
+        <item name="customBackgroundColor">@color/purple_custom</item>
+    </style>
+
+</resources>

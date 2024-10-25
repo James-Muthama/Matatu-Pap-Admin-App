@@ -1,0 +1,55 @@
+<resources>
+    <string name="home_icon_text">Home Icon</string>
+    <string name="home_icon_description">Navigate to your home screen</string>
+
+    <string name="receipts_icon_text">Receipts Icon</string>
+    <string name="receipts_icon_description">View and manage your receipts</string>
+
+    <string name="profile_icon_text">Profile Icon</string>
+    <string name="profile_icon_description">Access and edit your profile</string>
+
+    <string name="app_name_text">MatatuPap \n Admin App</string>
+    <string name="greetings_text">Greeting #Sacco_name</string>
+
+    <string name="add_bus_text">Add Bus into Sacco</string>
+    <string name="remove_bus_text">Remove Existing Bus</string>
+    <string name="add_route_text">Add Route</string>
+    <string name="change_route_prices_text">Change Route Prices</string>
+
+    <string name="add_new_bus_text">Add New Bus</string>
+    <string name="add_new_number_plate_text">Add Number Plate:</string>
+    <string name="add_new_number_plate_txt">Add Number Plate</string>
+    <string name="add_route_start_text">Add Route Start:</string>
+    <string name="add_route_end_text">Add Route End:</string>
+    <string name="add_bus_txt">Add Bus</string>
+    <string name="stages_between_text">Add Stages Between \n Separate with commas</string>
+    <string name="price_per_stage_text">Price Per Stage:</string>
+    <string name="changed_price_per_stage_text">Changed Price Per Stage:</string>
+    <string name="change_price_text">Change Price:</string>
+
+    <string name="sacco_sign_up_text">Sacco Sign Up:</string>
+    <string name="sacco_name_text">Sacco Name:</string>
+    <string name="sacco_email_text">Sacco Email:</string>
+    <string name="password_text">Password:</string>
+    <string name="sacco_sign_up_txt">Sign Up:</string>
+
+    <string name="search_bus_text">Search Bus Number Plate</string>
+    <string name="bus_plate_text">Bus Plate</string>
+    <string name="route_start_text">Route Start</string>
+    <string name="route_end_text">Route End</string>
+
+    <string name="customer_info_text">Customer Info:</string>
+    <string name="edit_password_text">Edit Password</string>
+
+    <string name="confirm_password_text">Confirm Password</string>
+
+    <string name="login_text">Log In</string>
+    <string name="sign_up_txt">Sign Up</string>
+
+    <string name="forgot_password_txt">Forgot Password</string>
+
+    <string name="mpesa_payment_text">M-Pesa Payments</string>
+
+    <string name="search_payment_text">Search Payments</string>
+
+</resources>
