@@ -51,7 +51,7 @@
                 app:cardBackgroundColor="#9D00FF">
 
                 <ImageView
-                    android:id="@+id/logo2"
+                    android:id="@+id/logo8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
@@ -91,8 +91,7 @@
         android:padding="25dp"
         app:layout_constraintBottom_toTopOf="@+id/white_line_design"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_nav_bar">
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Heading: Add New Bus -->
 

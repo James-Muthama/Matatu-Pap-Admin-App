@@ -45,11 +45,12 @@
                 android:id="@+id/logo_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:clickable="true"
                 app:cardBackgroundColor="#9D00FF">
 
                 <ImageView
-                    android:id="@+id/logo5"
+                    android:id="@+id/logo8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
@@ -65,7 +66,7 @@
                 app:cardBackgroundColor="#9D00FF">
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/name2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed"
@@ -89,8 +90,7 @@
         android:padding="25dp"
         app:layout_constraintBottom_toTopOf="@+id/white_line_design"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_nav_bar">
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Heading: Add New Bus -->
 
@@ -288,78 +288,6 @@
                 android:src="@drawable/person_icon" /> <!-- Content description added -->
 
         </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/top_nav_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:background="#9D00FF"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/back_icon_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            app:cardBackgroundColor="#9D00FF">
-
-            <ImageView
-                android:id="@+id/back_icon"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                android:padding="20dp"
-                app:srcCompat="@drawable/back_icon" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/left_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            app:cardBackgroundColor="#9D00FF">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/logo_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                app:cardBackgroundColor="#9D00FF">
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="20dp"
-                    android:src="@drawable/person_icon" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/name_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:cardBackgroundColor="#9D00FF">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="@string/app_name_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="#FFFFFF" />
-            </androidx.cardview.widget.CardView>
-
-        </androidx.cardview.widget.CardView>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
