@@ -2,7 +2,6 @@ package com.example.matatupapadminapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.cardview.widget.CardView

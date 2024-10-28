@@ -27,11 +27,14 @@
     <string name="changed_price_per_stage_text">Changed Price Per Stage:</string>
     <string name="change_price_text">Change Price:</string>
 
-    <string name="sacco_sign_up_text">Sacco Sign Up:</string>
+    <string name="sacco_sign_up_text">Sacco Sign Up</string>
+    <string name="sacco_log_in_text">Sacco Log In</string>
     <string name="sacco_name_text">Sacco Name:</string>
     <string name="sacco_email_text">Sacco Email:</string>
     <string name="password_text">Password:</string>
     <string name="sacco_sign_up_txt">Sign Up:</string>
+    <string name="sacco_signup_txt">Don\'t have an Account?  Sign Up</string>
+    <string name="sacco_login_txt">Have an Account?  Log In</string>
 
     <string name="search_bus_text">Search Bus Number Plate</string>
     <string name="bus_plate_text">Bus Plate</string>
