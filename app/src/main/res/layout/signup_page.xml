@@ -107,7 +107,7 @@
                 app:srcCompat="@drawable/user_icon" />
 
             <EditText
-                android:id="@+id/add_number_plate_input"
+                android:id="@+id/sacco_name"
                 android:layout_width="259dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
@@ -138,7 +138,7 @@
                 app:srcCompat="@drawable/mail_icon" />
 
             <EditText
-                android:id="@+id/add_price_per_stage_input"
+                android:id="@+id/sacco_email"
                 android:layout_width="256dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
@@ -169,7 +169,7 @@
                 app:srcCompat="@drawable/password_icon" />
 
             <EditText
-                android:id="@+id/add_route_end_input"
+                android:id="@+id/password"
                 android:layout_width="258dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
@@ -199,7 +199,7 @@
                 app:srcCompat="@drawable/password_icon" />
 
             <EditText
-                android:id="@+id/confirm_password_input"
+                android:id="@+id/confirm_password"
                 android:layout_width="256dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
@@ -222,7 +222,7 @@
             app:cardCornerRadius="25dp">
 
             <Button
-                android:id="@+id/submit_button"
+                android:id="@+id/sign_up_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
