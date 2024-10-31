@@ -98,16 +98,17 @@
             app:cardBackgroundColor="#9D00FF">
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/sacco_name_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
+                android:backgroundTint="#9D00FF"
                 android:padding="15dp"
                 app:srcCompat="@drawable/user_icon" />
 
             <EditText
                 android:id="@+id/sacco_name"
-                android:layout_width="259dp"
+                android:layout_width="256dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:background="#FFFFFF"
@@ -129,10 +130,11 @@
             app:cardBackgroundColor="#9D00FF">
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/email_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
+                android:backgroundTint="#9D00FF"
                 android:padding="15dp"
                 app:srcCompat="@drawable/mail_icon" />
 
@@ -160,16 +162,17 @@
             app:cardBackgroundColor="#9D00FF">
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/pass_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
+                android:backgroundTint="#9D00FF"
                 android:padding="15dp"
                 app:srcCompat="@drawable/password_icon" />
 
             <EditText
                 android:id="@+id/password"
-                android:layout_width="258dp"
+                android:layout_width="255dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:background="#FFFFFF"
@@ -190,16 +193,18 @@
             app:cardBackgroundColor="#9D00FF">
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/confirm_pass_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
+                android:backgroundTint="#9D00FF"
                 android:padding="15dp"
+                android:visibility="visible"
                 app:srcCompat="@drawable/password_icon" />
 
             <EditText
                 android:id="@+id/confirm_password"
-                android:layout_width="256dp"
+                android:layout_width="252dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:background="#FFFFFF"

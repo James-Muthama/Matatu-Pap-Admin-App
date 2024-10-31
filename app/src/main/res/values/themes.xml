@@ -7,4 +7,9 @@
         <item name="customBackgroundColor">@color/purple_custom</item>
     </style>
 
+    <!-- Corrected Theme extending from Theme.AppCompat -->
+    <style name="Theme.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent"> true</item>
+    </style>
+
 </resources>

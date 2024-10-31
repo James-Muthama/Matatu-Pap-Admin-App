@@ -1,5 +1,4 @@
 package com.example.matatupapadminapp
-
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
