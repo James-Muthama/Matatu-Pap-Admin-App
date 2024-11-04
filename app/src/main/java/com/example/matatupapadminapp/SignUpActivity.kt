@@ -52,7 +52,6 @@ class SignUpActivity : ComponentActivity() {
                 passwordVisibilityToggle.setImageResource(R.drawable.visibility_off_icon)
             }
 
-
             // Move the cursor to the end of the text in the password field
             saccoPass.setSelection(saccoPass.text.length)
         }
