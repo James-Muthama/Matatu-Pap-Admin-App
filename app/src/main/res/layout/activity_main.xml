@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/left_card"
+            android:id="@+id/top_nav_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
