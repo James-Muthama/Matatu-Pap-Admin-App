@@ -3,7 +3,7 @@
     "project_number": "750121335361",
     "firebase_url": "https://matatupap-default-rtdb.firebaseio.com",
     "project_id": "matatupap",
-    "storage_bucket": "matatupap.appspot.com"
+    "storage_bucket": "matatupap.firebasestorage.app"
   },
   "client": [
     {
