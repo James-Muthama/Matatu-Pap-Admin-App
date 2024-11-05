@@ -49,223 +49,155 @@
 
     <LinearLayout
         android:id="@+id/fromCard"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
         android:background="#9D00FF"
         android:elevation="15dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <!-- Heading: Add New Bus -->
 
-        <TextView
-            android:id="@+id/form_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|top"
-            android:layout_margin="20dp"
-            android:text="@string/sacco_sign_up_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#FFFFFF"
-            android:textSize="50sp"
-            android:textStyle="bold" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <ImageView
-                android:id="@+id/sacco_name_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|left"
-                android:background="#9D00FF"
-                android:padding="15dp"
-                app:srcCompat="@drawable/user_icon" />
-
-            <EditText
-                android:id="@+id/sacco_name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="#FFFFFF"
-                android:hint="@string/sacco_name_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardCornerRadius="30dp"
+            app:cardElevation="20dp">
 
-            <ImageView
-                android:id="@+id/email_icon"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center|left"
-                android:background="#9D00FF"
-                android:padding="15dp"
-                app:srcCompat="@drawable/mail_icon" />
-
-            <EditText
-                android:id="@+id/sacco_email"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="#FFFFFF"
-                android:hint="@string/sacco_email_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="#FFFFFF"
-                android:hint="@string/password_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-            <ImageView
-                android:id="@+id/password_visibility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
-                android:layout_margin="10dp"
-                app:srcCompat="@drawable/visibility_off_icon" />
-
-            <ImageView
-                android:id="@+id/confirm_pass_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|left"
-                android:background="#9D00FF"
-                android:backgroundTint="#9D00FF"
-                android:padding="15dp"
-                android:visibility="visible"
-                app:srcCompat="@drawable/password_icon" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <EditText
-                android:id="@+id/confirm_password"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:background="#FFFFFF"
-                android:hint="@string/confirm_password_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-            <ImageView
-                android:id="@+id/confirm_password_visibility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
-                android:layout_margin="10dp"
-                app:srcCompat="@drawable/visibility_off_icon" />
-
-            <ImageView
-                android:id="@+id/confirm_pass_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|left"
-                android:background="#9D00FF"
-                android:backgroundTint="#9D00FF"
-                android:padding="15dp"
-                android:visibility="visible"
-                app:srcCompat="@drawable/password_icon" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#959179"
-            app:cardCornerRadius="25dp">
-
-            <Button
-                android:id="@+id/sign_up_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#959179"
-                android:padding="25dp"
-                android:text="@string/sign_up_txt" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#959179"
-            app:cardCornerRadius="25dp">
-
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="#9D00FF"
-                android:padding="25dp"
-                android:text="@string/sacco_login_txt"
-                android:textColor="#FFFFFF" />
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/form_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_margin="20dp"
+                    android:text="@string/sacco_sign_up_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="#FFFFFF"
+                    android:textSize="45sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/sacco_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:drawableStart="@drawable/user_icon"
+                    android:drawablePadding="15dp"
+                    android:hint="@string/sacco_name_text"
+                    android:inputType="text"
+                    android:padding="15dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#0B0707"
+                    android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <EditText
+                    android:id="@+id/sacco_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:drawableStart="@drawable/mail_icon"
+                    android:drawablePadding="15dp"
+                    android:hint="@string/sacco_email_text"
+                    android:inputType="text"
+                    android:padding="15dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#0B0707"
+                    android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:drawableStart="@drawable/password_icon"
+                    android:drawableEnd="@drawable/visibility_off_icon"
+                    android:drawablePadding="15dp"
+                    android:hint="@string/password_text"
+                    android:inputType="textPassword"
+                    android:padding="15dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#0B0707"
+                    android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <EditText
+                    android:id="@+id/confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:drawableStart="@drawable/password_icon"
+                    android:drawableEnd="@drawable/visibility_off_icon"
+                    android:drawablePadding="15dp"
+                    android:hint="@string/confirm_password_text"
+                    android:inputType="textPassword"
+                    android:padding="15dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#0B0707"
+                    android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    app:cardCornerRadius="25dp">
+
+                    <Button
+                        android:id="@+id/sign_up_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#959179"
+                        android:padding="25dp"
+                        android:text="@string/sign_up_txt" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    app:cardCornerRadius="25dp">
+
+                    <Button
+                        android:id="@+id/login_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#9D00FF"
+                        android:padding="25dp"
+                        android:text="@string/sacco_login_txt"
+                        android:textColor="#FFFFFF" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Input: Add Number Plate -->
-
-        <!-- Dropdown: Add Route Start -->
-
-        <!-- Dropdown: Add Route End -->
-
-        <!-- Button: Submit -->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
