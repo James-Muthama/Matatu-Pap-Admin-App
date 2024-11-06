@@ -5,22 +5,31 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : ComponentActivity() {
+    // Firebase authentication reference
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge() // Enables edge-to-edge display for immersive user experience
         setContentView(R.layout.login_page) // Sets the layout for the login page
 
+        // Initialize Firebase Authentication
+        auth = FirebaseAuth.getInstance()
+
         // Initialize UI elements
         val signupBtn = findViewById<Button>(R.id.sign_up_btn) // Button to navigate to the sign-up page
+        val loginBtn = findViewById<Button>(R.id.login_button) // Button for logging in
         val saccoEmail = findViewById<EditText>(R.id.sacco_email) // Email input field
         val saccoPass = findViewById<EditText>(R.id.password) // Password input field
 
@@ -32,6 +41,35 @@ class LoginActivity : ComponentActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
+        // Handle login button click
+        loginBtn.setOnClickListener {
+            val email = saccoEmail.text.toString()
+            val password = saccoPass.text.toString()
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                loginUser(email, password)
+            } else {
+                Toast.makeText(this, "Please enter both email and password", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Log in user with Firebase Authentication
+    private fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Successful login, direct to MainActivity
+                    Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish() // Close LoginActivity so user can't return with back button
+                } else {
+                    // Show error message if registration fails
+                    Toast.makeText(this, "Log In Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                }
+            }
     }
 
     @SuppressLint("ClickableViewAccessibility")
