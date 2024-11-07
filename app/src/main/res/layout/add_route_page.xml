@@ -51,12 +51,11 @@
         android:id="@+id/fromCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
         android:elevation="15dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
+        app:layout_constraintBottom_toTopOf="@+id/white_line_design"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -164,7 +163,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_margin="11dp"
             app:cardBackgroundColor="#959179"
             app:cardCornerRadius="25dp">
 
@@ -213,9 +212,12 @@
             android:id="@+id/home_icon_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
             android:layout_weight="1"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            app:cardCornerRadius="50dp">
 
             <ImageView
                 android:id="@+id/home_icon"
@@ -224,7 +226,7 @@
                 android:layout_gravity="left"
                 android:background="#9D00FF"
                 android:contentDescription="@string/home_icon_description"
-                android:padding="30dp"
+                android:padding="20dp"
                 android:src="@drawable/home_icon" /> <!-- Content description added -->
 
         </androidx.cardview.widget.CardView>
@@ -233,9 +235,12 @@
             android:id="@+id/receipts_icon_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            app:cardCornerRadius="50dp">
 
             <ImageView
                 android:id="@+id/receipts_icon"
@@ -244,7 +249,7 @@
                 android:layout_gravity="center"
                 android:background="#9D00FF"
                 android:contentDescription="@string/receipts_icon_description"
-                android:padding="30dp"
+                android:padding="20dp"
                 android:src="@drawable/receipt_icon" /> <!-- Content description added -->
 
         </androidx.cardview.widget.CardView>
@@ -253,9 +258,12 @@
             android:id="@+id/profile_icon_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
             android:layout_weight="1"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            app:cardCornerRadius="50dp">
 
             <ImageView
                 android:id="@+id/profile_icon"
@@ -263,7 +271,7 @@
                 android:layout_height="match_parent"
                 android:background="#9D00FF"
                 android:contentDescription="@string/profile_icon_description"
-                android:padding="30dp"
+                android:padding="20dp"
                 android:src="@drawable/person_icon" /> <!-- Content description added -->
 
         </androidx.cardview.widget.CardView>
