@@ -9,7 +9,7 @@
     <string name="profile_icon_description">Access and edit your profile</string>
 
     <string name="app_name_text">Matatu-Pap \n Admin App</string>
-    <string name="greetings_text">Greeting #Sacco_name</string>
+    <string name="greetings_text">Greeting, User</string>
 
     <string name="add_bus_text">Add Bus into Sacco</string>
     <string name="remove_bus_text">Remove Existing Bus</string>
@@ -54,5 +54,8 @@
     <string name="mpesa_payment_text">M-Pesa Payments</string>
 
     <string name="search_payment_text">Search Payments</string>
+
+    <string name="greeting_text">Greeting, %1$s</string>
+
 
 </resources>

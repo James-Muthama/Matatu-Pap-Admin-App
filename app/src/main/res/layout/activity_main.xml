@@ -11,10 +11,9 @@
         android:id="@+id/top_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="55dp"
         android:background="#9D00FF"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/greeting_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,68 +22,29 @@
             android:id="@+id/top_nav_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="4"
             app:cardBackgroundColor="#9D00FF">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/logo_card"
+            <ImageView
+                android:id="@+id/logo4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                app:cardBackgroundColor="#9D00FF">
+                android:layout_margin="15dp"
+                android:padding="13dp"
+                android:src="@drawable/logo" />
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="13dp"
-                    android:src="@drawable/logo" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/name_card"
+            <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                app:cardBackgroundColor="#9D00FF">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="@string/app_name_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="#FFFFFF" />
-            </androidx.cardview.widget.CardView>
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-condensed"
+                android:text="@string/app_name_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#FFFFFF" />
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/right_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:cardBackgroundColor="#9D00FF">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/logout_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
-                android:clickable="true"
-                app:cardBackgroundColor="#9D00FF">
-
-                <ImageView
-                    android:id="@+id/logout_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="10dp"
-                    android:src="@drawable/logout_icon" />
-            </androidx.cardview.widget.CardView>
-        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <LinearLayout
@@ -95,8 +55,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/bus_cards"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_nav_bar">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/greeting_card"

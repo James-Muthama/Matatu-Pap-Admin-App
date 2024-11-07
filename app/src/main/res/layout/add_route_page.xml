@@ -19,62 +19,29 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/back_icon_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            app:cardBackgroundColor="#9D00FF">
-
-            <ImageView
-                android:id="@+id/back_icon"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                android:padding="20dp"
-                app:srcCompat="@drawable/back_icon" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
             android:id="@+id/top_nav_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
             app:cardBackgroundColor="#9D00FF">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/logo_card"
+            <ImageView
+                android:id="@+id/back_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:clickable="true"
-                app:cardBackgroundColor="#9D00FF">
+                android:layout_height="match_parent"
+                android:layout_gravity="center|left"
+                android:layout_margin="15dp"
+                android:padding="20dp"
+                app:srcCompat="@drawable/back_icon" />
 
-                <ImageView
-                    android:id="@+id/logo3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="13dp"
-                    android:src="@drawable/logo" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/name_card"
+            <ImageView
+                android:id="@+id/logo4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:cardBackgroundColor="#9D00FF">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="@string/app_name_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="#FFFFFF" />
-            </androidx.cardview.widget.CardView>
+                android:layout_margin="15dp"
+                android:padding="13dp"
+                android:src="@drawable/logo" />
 
         </androidx.cardview.widget.CardView>
 
@@ -84,7 +51,6 @@
         android:id="@+id/fromCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
         android:layout_marginBottom="17dp"
         android:elevation="15dp"
         android:gravity="center"
@@ -92,8 +58,7 @@
         android:padding="25dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_nav_bar">
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Heading: Add New Bus -->
 

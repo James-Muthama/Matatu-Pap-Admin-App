@@ -16,6 +16,17 @@ class ProfileActivity : AppCompatActivity() {
         val homeIcon = findViewById<CardView>(R.id.home_icon_card)
         val backIcon = findViewById<ImageView>(R.id.back_icon)
         val receiptsIcon = findViewById<CardView>(R.id.receipts_icon_card)
+        val logoutIcon = findViewById<ImageView>(R.id.logout_icon)
+
+        // Set click listener for logout icon
+        logoutIcon.setOnClickListener {
+            // Clear user session or perform logout logic
+            // Redirect to the login activity
+            val intent = Intent(this@ProfileActivity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish() // Ensure the profile activity is finished after logout
+        }
 
         homeIcon.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
