@@ -48,7 +48,8 @@
                 android:background="#9D00FF"
                 android:contentDescription="@string/home_icon_description"
                 android:padding="20dp"
-                android:src="@drawable/home_icon" /> <!-- Content description added -->
+                android:src="@drawable/home_icon"
+                app:tint="#FFFFFF"/> <!-- Content description added -->
 
         </androidx.cardview.widget.CardView>
 
