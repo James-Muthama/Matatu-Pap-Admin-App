@@ -33,7 +33,7 @@ class SignUpActivity : ComponentActivity() {
         // UI elements from the layout
         val loginBtn = findViewById<Button>(R.id.login_button) // Button to navigate to login screen
         val saccoName = findViewById<EditText>(R.id.sacco_name) // Input field for user's name
-        val saccoEmail = findViewById<EditText>(R.id.sacco_email) // Input field for user's email
+        val saccoEmail = findViewById<EditText>(R.id.bus_route_start) // Input field for user's email
         val saccoPass = findViewById<EditText>(R.id.password) // Input field for user's password
         val saccoConfirmPass = findViewById<EditText>(R.id.confirm_password) // Input field for confirming password
         val signUpBtn = findViewById<Button>(R.id.sign_up_btn) // Button to trigger sign-up process

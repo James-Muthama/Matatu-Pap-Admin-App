@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
@@ -30,7 +29,7 @@ class LoginActivity : ComponentActivity() {
         // Initialize UI elements
         val signupBtn = findViewById<Button>(R.id.sign_up_btn) // Button to navigate to the sign-up page
         val loginBtn = findViewById<Button>(R.id.login_button) // Button for logging in
-        val saccoEmail = findViewById<EditText>(R.id.sacco_email) // Email input field
+        val saccoEmail = findViewById<EditText>(R.id.bus_route_start) // Email input field
         val saccoPass = findViewById<EditText>(R.id.password) // Password input field
 
         // Set up password visibility toggle for the password field

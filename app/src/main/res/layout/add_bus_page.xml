@@ -8,6 +8,115 @@
     android:background="#9D00FF">
 
     <LinearLayout
+        android:id="@+id/fromCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="75dp"
+        android:background="#9D00FF"
+        android:elevation="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Heading: Add New Bus -->
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="#9D00FF"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/form_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_margin="20dp"
+                    android:text="@string/add_new_bus_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="#FFFFFF"
+                    android:textSize="45sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/bus_number_plate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:hint="@string/add_new_number_plate_text"
+                    android:inputType="text"
+                    android:padding="25dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#0B0707"
+                    android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <EditText
+                    android:id="@+id/bus_route_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:hint="@string/add_route_start_text"
+                    android:inputType="text"
+                    android:padding="25dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#0B0707"
+                    android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <EditText
+                    android:id="@+id/bus_route_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:hint="@string/add_route_end_text"
+                    android:padding="25dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#0B0707"
+                    android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    app:cardCornerRadius="25dp">
+
+                    <Button
+                        android:id="@+id/add_bus_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#959179"
+                        android:padding="25dp"
+                        android:text="@string/add_bus_txt" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/top_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,124 +154,6 @@
 
         </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/fromCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:elevation="15dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/white_line_design"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Heading: Add New Bus -->
-
-        <TextView
-            android:id="@+id/form_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|top"
-            android:layout_margin="30dp"
-            android:text="@string/add_new_bus_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#FFFFFF"
-            android:textSize="50sp"
-            android:textStyle="bold" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#9D00FF">
-
-            <EditText
-                android:id="@+id/add_number_plate_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:hint="@string/add_new_number_plate_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#9D00FF">
-
-            <EditText
-                android:id="@+id/add_price_per_stage_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:hint="@string/add_route_start_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#9D00FF">
-
-            <EditText
-                android:id="@+id/add_route_end_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:hint="@string/add_route_end_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#959179"
-            app:cardCornerRadius="25dp">
-
-            <Button
-                android:id="@+id/submit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#959179"
-                android:padding="20dp"
-                android:text="@string/add_bus_txt" />
-        </androidx.cardview.widget.CardView>
-
-        <!-- Input: Add Number Plate -->
-
-        <!-- Dropdown: Add Route Start -->
-
-        <!-- Dropdown: Add Route End -->
-
-        <!-- Button: Submit -->
     </LinearLayout>
 
     <LinearLayout

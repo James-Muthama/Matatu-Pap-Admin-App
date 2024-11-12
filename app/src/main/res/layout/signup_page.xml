@@ -108,7 +108,7 @@
                     tools:ignore="TextFields" />
 
                 <EditText
-                    android:id="@+id/sacco_email"
+                    android:id="@+id/bus_route_start"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
