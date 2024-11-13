@@ -58,5 +58,12 @@
 
     <string name="greeting_text">Greetings, %1$s</string>
 
+    <string name="route_start">Route Start</string>
+    <string name="route_end">Route End</string>
+    <string name="route_stage">Stage</string>
+
+    <string name="instruction_route_start">Pin Route Start on Google Maps</string>
+    <string name="add_route_start_btn">Add Route Start</string>
+
 
 </resources>

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
         android:background="#9D00FF"
@@ -20,7 +21,8 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/white_line_design"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_nav_bar">
 
         <!-- Heading: Add New Bus -->
 
@@ -68,6 +70,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
@@ -131,7 +135,7 @@
                     tools:ignore="TextFields" />
 
                 <EditText
-                    android:id="@+id/bus_code2"
+                    android:id="@+id/bus_payment_method"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -248,7 +252,7 @@
                 android:contentDescription="@string/home_icon_description"
                 android:padding="20dp"
                 android:src="@drawable/home_icon"
-                app:tint="#FFFFFF"/> <!-- Content description added -->
+                app:tint="#FFFFFF" /> <!-- Content description added -->
 
         </androidx.cardview.widget.CardView>
 

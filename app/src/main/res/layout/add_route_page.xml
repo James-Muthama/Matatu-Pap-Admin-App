@@ -14,6 +14,7 @@
         android:layout_marginTop="55dp"
         android:background="#9D00FF"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/maps_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -48,142 +49,161 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fromCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/maps_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="300dp"
         android:elevation="15dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="25dp"
         app:layout_constraintBottom_toTopOf="@+id/white_line_design"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_nav_bar"
+        app:layout_constraintVertical_bias="1.0">
 
-        <!-- Heading: Add New Bus -->
-
-        <TextView
-            android:id="@+id/form_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|top"
-            android:layout_margin="30dp"
-            android:text="@string/add_route_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#FFFFFF"
-            android:textSize="50sp"
-            android:textStyle="bold" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#9D00FF">
-
-            <EditText
-                android:id="@+id/add_number_plate_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:hint="@string/add_route_start_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#9D00FF">
-
-            <EditText
-                android:id="@+id/add_stages_btwn_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:hint="@string/stages_between_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#9D00FF">
-
-            <EditText
-                android:id="@+id/add_price_per_stage_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:hint="@string/price_per_stage_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#9D00FF">
-
-            <EditText
-                android:id="@+id/add_route_end_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:hint="@string/add_route_end_text"
-                android:inputType="text"
-                android:padding="25dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-        </androidx.cardview.widget.CardView>
-
+        <!-- Adding the map fragment here -->
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="11dp"
-            app:cardBackgroundColor="#959179"
-            app:cardCornerRadius="25dp">
+            android:layout_gravity="center|top"
+            android:backgroundTint="#9D00FF">
 
-            <Button
-                android:id="@+id/submit_button"
+            <TextView
+                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#959179"
-                android:padding="20dp"
-                android:text="@string/add_route_text" />
+                android:text="@string/instruction_route_start"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Input: Add Number Plate -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <!-- Dropdown: Add Route Start -->
+    </LinearLayout>
 
-        <!-- Dropdown: Add Route End -->
+    <LinearLayout
+        android:id="@+id/routepins"
+        android:layout_width="448dp"
+        android:layout_height="98dp"
+        android:elevation="15dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/questions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maps_card">
 
-        <!-- Button: Submit -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/start_route_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF">
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_marginEnd="5dp"
+                android:text="@string/route_start"
+                android:textColor="@color/green"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/route_start_pin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/location_icon"
+                app:tint="@color/green" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/end_route_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="#9D00FF">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_marginEnd="7dp"
+                android:text="@string/route_end"
+                android:textColor="@color/red"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/route_end_pin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#9D00FF"
+                app:srcCompat="@drawable/location_icon"
+                app:tint="@color/red" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/stage_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="#9D00FF">
+
+            <TextView
+                android:id="@+id/stage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_marginEnd="25dp"
+                android:text="@string/route_stage"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/route_stage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#9D00FF"
+                app:srcCompat="@drawable/location_icon"
+                app:tint="@color/black" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/questions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="15dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/white_line_design"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/routepins">
+
+        <fragment
+            android:id="@+id/route_start_fragment"
+            android:name="com.example.matatupapadminapp.RouteStartFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -228,7 +248,7 @@
                 android:contentDescription="@string/home_icon_description"
                 android:padding="20dp"
                 android:src="@drawable/home_icon"
-                app:tint="#FFFFFF"/> <!-- Content description added -->
+                app:tint="#FFFFFF" /> <!-- Content description added -->
 
         </androidx.cardview.widget.CardView>
 
