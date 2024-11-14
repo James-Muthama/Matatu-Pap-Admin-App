@@ -65,5 +65,8 @@
     <string name="instruction_route_start">Pin Route Start on Google Maps</string>
     <string name="add_route_start_btn">Add Route Start</string>
 
+    <string name="instruction_route_end">Pin Route End on Google Maps</string>
+    <string name="add_route_end_btn">Add Route End</string>
+
 
 </resources>

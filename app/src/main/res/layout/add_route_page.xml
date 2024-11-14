@@ -72,7 +72,7 @@
             android:backgroundTint="#9D00FF">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/map_instruction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/instruction_route_start"
@@ -109,7 +109,9 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:backgroundTint="#FFFFFF">
+            android:backgroundTint="#FFFFFF"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/textView13"
@@ -136,6 +138,8 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:backgroundTint="#9D00FF">
 
             <TextView
@@ -164,6 +168,8 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:backgroundTint="#9D00FF">
 
             <TextView
@@ -198,11 +204,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/routepins">
 
-        <fragment
-            android:id="@+id/route_start_fragment"
-            android:name="com.example.matatupapadminapp.RouteStartFragment"
+        <FrameLayout
+            android:id="@+id/route_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 

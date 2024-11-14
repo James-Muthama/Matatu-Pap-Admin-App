@@ -5,23 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 class RouteStartFragment : Fragment() {
 
-    private lateinit var textViewRouteStart: TextView
     private lateinit var buttonAddRouteStart: Button
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.route_start, container, false)
-        buttonAddRouteStart = view.findViewById(R.id.button_add_route_start)
-
-        return view
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.route_start_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize the button here since onViewCreated is called after onCreateView
+        buttonAddRouteStart = view.findViewById(R.id.button_add_route_start)
 
         // Set up click listener for the button
         buttonAddRouteStart.setOnClickListener {
@@ -32,8 +30,10 @@ class RouteStartFragment : Fragment() {
         }
     }
 
-    // Placeholder for a method to set the route start, which would be implemented in the activity
-    private fun AddRoutePageActivity.setRouteStart() {
+    // This method is correctly placed as it's meant to be called from the activity or fragment
+    // Note: It's not necessary to keep this within the fragment as a private method unless it's used here
+    // If it's meant for use outside this fragment, it should be public or moved to the activity.
+    fun AddRoutePageActivity.setRouteStart() {
         // Implement the logic to set the route start here
     }
 }
