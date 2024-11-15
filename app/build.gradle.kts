@@ -66,4 +66,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (libs.play.services.maps)
     implementation (libs.play.services.location)
+    implementation (libs.android.maps.utils)
 }

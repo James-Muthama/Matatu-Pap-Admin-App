@@ -1,4 +1,9 @@
 <resources>
+    //API_KEY
+    <string name="google_maps_display_key">AIzaSyCKC3C5TtF-J97e_m4Ml-wQMy_n61hsgSw</string>
+    <string name="google_route_display_key">AIzaSyBmWcCH39XF9joFsovohMqHKYhDcojWkCU</string>
+
+    //Other text used in the app
     <string name="home_icon_text">Home Icon</string>
     <string name="home_icon_description">Navigate to your home screen</string>
 
@@ -62,11 +67,14 @@
     <string name="route_end">Route End</string>
     <string name="route_stage">Stage</string>
 
-    <string name="instruction_route_start">Pin Route Start on Google Maps</string>
-    <string name="add_route_start_btn">Add Route Start</string>
+    <string name="instruction_route_start">Pin Route Start on the Map</string>
 
-    <string name="instruction_route_end">Pin Route End on Google Maps</string>
-    <string name="add_route_end_btn">Add Route End</string>
+    <string name="instruction_route_end">Pin Route End on the Map</string>
 
+    <string name="instruction_route_stage">Pin Atleast 5 Stages on the Map</string>
+
+    <string name="instruction_txt">Tap Route Start, Route End and Stage Above to Pin Location on Map</string>
+
+    <string name="confirm_route_btn_txt">Add Route</string>
 
 </resources>
