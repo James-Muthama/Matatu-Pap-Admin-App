@@ -40,11 +40,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_display_key" />
+            android:value="@string/google_maps_api_key" />
 
         <meta-data
             android:name="com.example.matatupapadminapp.DIRECTIONS_API_KEY"
-            android:value="@string/google_route_display_key" />
+            android:value="@string/google_maps_api_key" />
 
     </application>
 

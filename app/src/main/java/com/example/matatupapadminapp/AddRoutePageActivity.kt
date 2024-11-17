@@ -3,6 +3,7 @@ package com.example.matatupapadminapp
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -47,51 +48,38 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Enable edge-to-edge display for immersive experience
         enableEdgeToEdge()
-        // Set the layout for this activity
         setContentView(R.layout.add_route_page)
 
-        // Initialize UI components
         startRouteCard = findViewById(R.id.start_route_card)
         endRouteCard = findViewById(R.id.end_route_card)
         stageRouteCard = findViewById(R.id.stage_card)
 
-        // Navigation setup
         val homeIcon = findViewById<CardView>(R.id.home_icon_card)
         val backIcon = findViewById<ImageView>(R.id.back_icon)
         val profileIcon = findViewById<CardView>(R.id.profile_icon_card)
         val receiptsIcon = findViewById<CardView>(R.id.receipts_icon_card)
 
-        // Set click listeners for navigation
         receiptsIcon.setOnClickListener { startActivity(Intent(this, ReceiptsActivity::class.java)) }
         profileIcon.setOnClickListener { startActivity(Intent(this, ProfileActivity::class.java)) }
         backIcon.setOnClickListener { finish() }
         homeIcon.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
 
-        // Set click listeners for route selection
         startRouteCard.setOnClickListener { changeToStartRoute() }
         endRouteCard.setOnClickListener { changeToEndRoute() }
         stageRouteCard.setOnClickListener { changeToStageRoute() }
 
-        // Button to plan route
         val addRouteBtn = findViewById<View>(R.id.add_route_btn)
-        addRouteBtn.setOnClickListener {
-            // This function will be called when the user clicks to plan a route
-            planRoute()
-        }
+        addRouteBtn.setOnClickListener { planRoute() }
 
-        // Initialize the map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-        // If it's a new instance of the activity, start in the start route selection mode
         if (savedInstanceState == null) {
             changeToStartRoute()
         }
     }
 
-    // Functions to change UI for different marker types (start, end, stage)
     private fun changeToStageRoute() {
         markerColor = BitmapDescriptorFactory.HUE_BLUE
         updateMapInstruction(R.string.instruction_route_stage)
@@ -110,23 +98,19 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         updateCardBackgrounds(endRouteCard, startRouteCard, stageRouteCard)
     }
 
-    // Utility to update map instructions
     private fun updateMapInstruction(stringRes: Int) {
         findViewById<TextView>(R.id.map_instruction)?.text = getString(stringRes)
     }
 
-    // Utility to update card backgrounds
     private fun updateCardBackgrounds(selectedCard: CardView, otherCard: CardView, otherCard2: CardView) {
         selectedCard.setCardBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
         otherCard.setCardBackgroundColor(ContextCompat.getColor(this, R.color.my_purple))
         otherCard2.setCardBackgroundColor(ContextCompat.getColor(this, R.color.my_purple))
     }
 
-    // Called when Google Map is ready to be used
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Set initial map view to Kenya
         val kenyaLatLng = LatLng(-1.286389, 36.817223)
         val kenyaBounds = LatLngBounds(
             LatLng(-4.67677, 33.909821),
@@ -137,7 +121,6 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.setLatLngBoundsForCameraTarget(kenyaBounds)
 
-        // Check for location permissions before enabling current location
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -154,10 +137,8 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
             return
         }
 
-        // Enable current location on the map
         mMap.isMyLocationEnabled = true
 
-        // Set map click listener to add markers
         mMap.setOnMapClickListener { latLng ->
             if (kenyaBounds.contains(latLng)) {
                 lastClickedLatLng = latLng
@@ -165,20 +146,24 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
                     .position(latLng)
                     .icon(BitmapDescriptorFactory.defaultMarker(markerColor))
 
+                when (markerColor) {
+                    BitmapDescriptorFactory.HUE_GREEN -> {
+                        removeMarkerOfType(markerColor)
+                        startMarker = latLng
+                    }
+                    BitmapDescriptorFactory.HUE_RED -> {
+                        removeMarkerOfType(markerColor)
+                        endMarker = latLng
+                    }
+                    BitmapDescriptorFactory.HUE_BLUE -> {
+                        stageMarkers.add(latLng)
+                    }
+                }
+
                 val marker = mMap.addMarker(markerOptions)!!
                 marker.tag = markerColor
                 markers.add(marker)
-
-                // Assign the clicked position to the appropriate marker type
-                when (markerColor) {
-                    BitmapDescriptorFactory.HUE_GREEN -> startMarker = latLng
-                    BitmapDescriptorFactory.HUE_RED -> endMarker = latLng
-                    BitmapDescriptorFactory.HUE_BLUE -> stageMarkers.add(latLng)
-                }
-
-                // Show coordinates of the clicked point
                 Toast.makeText(this, latLng.toString(), Toast.LENGTH_SHORT).show()
-                // Zoom in on the clicked location
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
             } else {
                 Toast.makeText(this, "Please click within Kenya's borders", Toast.LENGTH_SHORT).show()
@@ -186,7 +171,6 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    // Function to retrieve the Google Maps API key from the manifest
     private fun getGoogleMapsApiKey(): String? {
         return try {
             val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
@@ -198,104 +182,148 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    // Plan the route based on the markers placed on the map
+    // New planRoute function
     private fun planRoute() {
         when {
             startMarker == null -> Toast.makeText(this, "Add route start", Toast.LENGTH_SHORT).show()
             endMarker == null -> Toast.makeText(this, "Add route end", Toast.LENGTH_SHORT).show()
-            stageMarkers.size < 3 -> Toast.makeText(this, "You should have at least three stages", Toast.LENGTH_SHORT).show() // Reduced to 3 from 5
+            stageMarkers.size < 1 -> Toast.makeText(this, "You should have at least one stage", Toast.LENGTH_SHORT).show()
             else -> {
-                startMarker?.let { start ->
-                    endMarker?.let { end ->
-                        // Clear previous markers and polylines if any
-                        mMap.clear()
+                val apiKey = getGoogleMapsApiKey() ?: return
+                GlobalScope.launch(Dispatchers.Main) {
+                    try {
+                        val routePoints = mutableListOf<LatLng>()
 
-                        // Create waypoint string from stage markers
-                        val apiKey = getGoogleMapsApiKey()
+                        val startRoad = getNearestRoad(startMarker!!, apiKey) ?: startMarker!!
+                        routePoints.add(startRoad)
 
-                        // URL Encoding for start, end, and waypoints
-                        val encodedStart = URLEncoder.encode("${start.latitude},${start.longitude}", "UTF-8")
-                        val encodedEnd = URLEncoder.encode("${end.latitude},${end.longitude}", "UTF-8")
-                        val encodedWaypoints = stageMarkers.map { URLEncoder.encode("${it.latitude},${it.longitude}", "UTF-8") }.joinToString("|")
-
-                        // Construct URL for Google Directions API with the dynamic API key
-                        val url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                                "origin=$encodedStart&" +
-                                "destination=$encodedEnd&" +
-                                "waypoints=$encodedWaypoints&" +
-                                "mode=transit&transit_mode=bus&" +
-                                "key=$apiKey"
-
-                        fetchDirection(url)
-
-                        // Add start marker
-                        val startMarkerOptions = MarkerOptions().position(start).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                        mMap.addMarker(startMarkerOptions)
-
-                        // Add end marker
-                        val endMarkerOptions = MarkerOptions().position(end).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        mMap.addMarker(endMarkerOptions)
-
-                        // Add stage markers
                         for (stage in stageMarkers) {
-                            val stageMarkerOptions = MarkerOptions().position(stage).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-                            mMap.addMarker(stageMarkerOptions)
+                            val stageStop = getNearestTransitStop(stage, apiKey)
+                            if (stageStop != null) {
+                                routePoints.add(stageStop)
+                            }
                         }
+
+                        val endRoad = getNearestRoad(endMarker!!, apiKey) ?: endMarker!!
+                        routePoints.add(endRoad)
+
+                        for (i in 0 until routePoints.size - 1) {
+                            val from = routePoints[i]
+                            val to = routePoints[i + 1]
+
+                            val directionsUrl = "https://maps.googleapis.com/maps/api/directions/json?" +
+                                    "origin=${URLEncoder.encode("${from.latitude},${from.longitude}", "UTF-8")}&" +
+                                    "destination=${URLEncoder.encode("${to.latitude},${to.longitude}", "UTF-8")}&" +
+                                    "mode=driving&" +
+                                    "key=$apiKey"
+
+                            val routeResult = fetchDirections(directionsUrl)
+
+                            if (routeResult != null) {
+                                drawRouteOnMap(routeResult, i == routePoints.size - 2)
+                            } else {
+                                Toast.makeText(this@AddRoutePageActivity, "Failed to fetch route segment", Toast.LENGTH_SHORT).show()
+                                break
+                            }
+                        }
+
+                        addMarkersToMap(routePoints)
+
+                    } catch (e: Exception) {
+                        Log.e("RoutePlanning", "Route planning failed", e)
+                        Toast.makeText(this@AddRoutePageActivity, "Route planning failed: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
-                } ?: run {
-                    // This will run if startMarker or endMarker is null
-                    Toast.makeText(this, "Start or end marker not set", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    // Fetch route information from Google Directions API
     @OptIn(DelicateCoroutinesApi::class)
-    private fun fetchDirection(url: String) {
-        GlobalScope.launch(Dispatchers.IO) {
+    private suspend fun fetchDirections(url: String): List<LatLng>? {
+        return withContext(Dispatchers.IO) {
             try {
                 val result = URL(url).readText()
-                withContext(Dispatchers.Main) {
-                    handleDirectionResult(result)
+                JSONObject(result).let { jsonObject ->
+                    if (jsonObject.getString("status") == "OK") {
+                        val routes = jsonObject.getJSONArray("routes")
+                        if (routes.length() > 0) {
+                            val route = routes.getJSONObject(0)
+                            val poly = route.getJSONObject("overview_polyline").getString("points")
+                            PolyUtil.decode(poly)
+                        } else {
+                            null
+                        }
+                    } else {
+                        Log.e("RoutePlanning", "API returned error: ${jsonObject.getString("status")}")
+                        null
+                    }
                 }
             } catch (e: Exception) {
-                Log.e("RoutePlanning", "Error fetching route", e)
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@AddRoutePageActivity, "Failed to fetch route", Toast.LENGTH_SHORT).show()
-                }
+                Log.e("RoutePlanning", "Failed to fetch directions", e)
+                null
             }
         }
     }
 
-    // Handle the route data returned by the API
-    private fun handleDirectionResult(result: String) {
-        try {
-            val jsonObject = JSONObject(result)
-            val status = jsonObject.getString("status")
-            if (status == "OK") {
-                val routes = jsonObject.getJSONArray("routes")
-                if (routes.length() > 0) {
-                    val route = routes.getJSONObject(0)
-                    val poly = route.getJSONObject("overview_polyline").getString("points")
-                    val polyline = PolyUtil.decode(poly)
-                    val lineOptions = PolylineOptions()
-                    for (point in polyline) {
-                        lineOptions.add(point)
-                    }
-                    // Add the route to the map
-                    mMap.addPolyline(lineOptions)
-                } else {
-                    Toast.makeText(this, "No routes found", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                val errorDetails = jsonObject.optString("error_message", "No error message provided")
-                Log.e("RoutePlanning", "API Error: $status, Details: $errorDetails")
-                Toast.makeText(this, "API Error: $status", Toast.LENGTH_LONG).show()
+    private fun drawRouteOnMap(routePoints: List<LatLng>, isLastSegment: Boolean) {
+        val lineOptions = PolylineOptions()
+        routePoints.forEach { lineOptions.add(it) }
+        lineOptions.color(Color.BLUE)
+        if (isLastSegment) lineOptions.color(Color.GRAY)
+        mMap.addPolyline(lineOptions)
+    }
+
+    private fun addMarkersToMap(routePoints: List<LatLng>) {
+        routePoints.forEachIndexed { index, latLng ->
+            val markerOptions = MarkerOptions().position(latLng)
+            when (index) {
+                0 -> markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                routePoints.size - 1 -> markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                else -> markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
             }
-        } catch (e: JSONException) {
-            Log.e("RoutePlanning", "Error parsing route response", e)
-            Toast.makeText(this, "Error parsing route data", Toast.LENGTH_SHORT).show()
+            mMap.addMarker(markerOptions)
+        }
+    }
+
+    private suspend fun getNearestTransitStop(latLng: LatLng, apiKey: String): LatLng? = withContext(Dispatchers.IO) {
+        val placesUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                "location=${latLng.latitude},${latLng.longitude}&" +
+                "radius=500&" +
+                "type=transit_station&" +
+                "key=$apiKey"
+        try {
+            val response = URL(placesUrl).readText()
+            val placesJson = JSONObject(response)
+            val results = placesJson.getJSONArray("results")
+            if (results.length() > 0) {
+                val nearestStop = results.getJSONObject(0)
+                val location = nearestStop.getJSONObject("geometry").getJSONObject("location")
+                LatLng(location.getDouble("lat"), location.getDouble("lng"))
+            } else null
+        } catch (e: Exception) {
+            Log.e("RoutePlanning", "Failed to find transit stop", e)
+            null
+        }
+    }
+
+    private suspend fun getNearestRoad(latLng: LatLng, apiKey: String): LatLng? = withContext(Dispatchers.IO) {
+        val placesUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                "location=${latLng.latitude},${latLng.longitude}&" +
+                "radius=500&" +
+                "type=route&" +
+                "key=$apiKey"
+        try {
+            val response = URL(placesUrl).readText()
+            val placesJson = JSONObject(response)
+            val results = placesJson.getJSONArray("results")
+            if (results.length() > 0) {
+                val nearestRoad = results.getJSONObject(0)
+                val location = nearestRoad.getJSONObject("geometry").getJSONObject("location")
+                LatLng(location.getDouble("lat"), location.getDouble("lng"))
+            } else null
+        } catch (e: Exception) {
+            Log.e("RoutePlanning", "Failed to find nearest road", e)
+            null
         }
     }
 
@@ -316,6 +344,15 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
                     Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    // Helper function to remove markers by color
+    private fun removeMarkerOfType(color: Float) {
+        val markerToRemove = markers.find { it.tag == color }
+        markerToRemove?.let {
+            it.remove()
+            markers.remove(it)
         }
     }
 

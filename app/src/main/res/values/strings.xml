@@ -1,7 +1,6 @@
 <resources>
     //API_KEY
-    <string name="google_maps_display_key">AIzaSyCKC3C5TtF-J97e_m4Ml-wQMy_n61hsgSw</string>
-    <string name="google_route_display_key">AIzaSyBmWcCH39XF9joFsovohMqHKYhDcojWkCU</string>
+    <string name="google_maps_api_key">AIzaSyAAKk3q93EhiVn5-2NTVZyat0wY6-zce9o</string>
 
     //Other text used in the app
     <string name="home_icon_text">Home Icon</string>
