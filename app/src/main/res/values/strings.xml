@@ -1,6 +1,6 @@
 <resources>
     //API_KEY
-    <string name="google_maps_api_key">AIzaSyAAKk3q93EhiVn5-2NTVZyat0wY6-zce9o</string>
+    <string name="google_maps_api_key">AIzaSyAdfpBtV9InB9UhIbsq4PJBE2V0hctT1mQ</string>
 
     //Other text used in the app
     <string name="home_icon_text">Home Icon</string>

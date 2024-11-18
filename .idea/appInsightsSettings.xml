@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.matatupapadminapp" />
-                  <option name="mobileSdkAppId" value="1:750121335361:android:31736efd2d69b1f3d2e4c0" />
-                  <option name="projectId" value="matatupap" />
-                  <option name="projectNumber" value="750121335361" />
+                  <option name="mobileSdkAppId" value="1:972845719954:android:f7c8b0d6c9dd168ad7a14b" />
+                  <option name="projectId" value="matatu-pap-4528b" />
+                  <option name="projectNumber" value="972845719954" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

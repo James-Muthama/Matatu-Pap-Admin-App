@@ -1,13 +1,33 @@
 {
   "project_info": {
-    "project_number": "972845719954",
-    "project_id": "matatu-pap-4528b",
-    "storage_bucket": "matatu-pap-4528b.firebasestorage.app"
+    "project_number": "750121335361",
+    "firebase_url": "https://matatupap-default-rtdb.firebaseio.com",
+    "project_id": "matatupap",
+    "storage_bucket": "matatupap.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:972845719954:android:f7c8b0d6c9dd168ad7a14b",
+        "mobilesdk_app_id": "1:750121335361:android:c6942564c9e8ae3bd2e4c0",
+        "android_client_info": {
+          "package_name": "com.example.matatupap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqhJVrdKoI0Z4Bc8E_lKB6XrD_l6w6LG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750121335361:android:31736efd2d69b1f3d2e4c0",
         "android_client_info": {
           "package_name": "com.example.matatupapadminapp"
         }
@@ -15,7 +35,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAti1n4NPpqNcjyIW_biB7zcMXaJVgnWRo"
+          "current_key": "AIzaSyCqhJVrdKoI0Z4Bc8E_lKB6XrD_l6w6LG8"
         }
       ],
       "services": {
