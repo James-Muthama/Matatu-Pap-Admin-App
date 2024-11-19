@@ -63,6 +63,7 @@ class SignUpActivity : ComponentActivity() {
             // Navigate to LoginActivity when login button is clicked
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -102,7 +103,7 @@ class SignUpActivity : ComponentActivity() {
                     // Navigate to MainActivity after successful registration
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-                    finish() // Ensure this activity is removed from the back stack
+                    finishAffinity() // This will destroy all activities up to this point, including SignUp and Login
                 } else {
                     // Show error message if data storage fails
                     Toast.makeText(this, "Failed to store user data: ${task.exception?.message}", Toast.LENGTH_LONG).show()
