@@ -25,7 +25,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         // Launch a coroutine for the delay and user check
         lifecycleScope.launch {
-            delay(3000) // Delay for 3 seconds
+            delay(5000) // Delay for 5 seconds
 
             // Check if the user is already signed in
             val currentUser = auth.currentUser

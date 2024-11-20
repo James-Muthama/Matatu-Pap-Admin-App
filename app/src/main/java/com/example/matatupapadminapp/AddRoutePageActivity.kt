@@ -87,7 +87,11 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Button to initiate route planning
         val addRouteBtn = findViewById<View>(R.id.add_route_btn)
-        addRouteBtn.setOnClickListener { planRoute() }
+        addRouteBtn.setOnClickListener {
+            // Clear only the polylines before planning a new route
+            clearPolylines()
+            planRoute()
+        }
 
         // Asynchronously load the Google Map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
@@ -97,6 +101,14 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         if (savedInstanceState == null) {
             changeToStartRoute()
         }
+    }
+
+    /**
+     * Removes Route everytime to allow new route to be drawn each time the user clicks add route.
+     */
+    private fun clearPolylines() {
+        polylines.forEach { it.remove() }
+        polylines.clear()
     }
 
     /**
@@ -267,7 +279,7 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
             endMarker == null -> Toast.makeText(this, "Add route end", Toast.LENGTH_SHORT).show()
 
             // Check if at least one stage marker is set, if not, prompt user
-            stageMarkers.size < 1 -> Toast.makeText(this, "You should have at least one stage", Toast.LENGTH_SHORT).show()
+            stageMarkers.size < 5 -> Toast.makeText(this, "You should have at least five stages", Toast.LENGTH_SHORT).show()
 
             else -> {
                 // Retrieve the API key or return if not available
@@ -312,7 +324,7 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
 
                             if (routeResult != null) {
                                 // Draw the route segment on the map, check if it's the last segment
-                                drawRouteOnMap(routeResult, i == routePoints.size - 2)
+                                drawRouteOnMap(routeResult)
                             } else {
                                 // Show error message if fetching route segment fails
                                 Toast.makeText(this@AddRoutePageActivity, "Failed to fetch route segment", Toast.LENGTH_SHORT).show()
@@ -320,8 +332,6 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
                             }
                         }
 
-                        // Add markers to the map for all route points
-                        addMarkersToMap(routePoints)
                     } catch (e: Exception) {
                         // Log and show any exceptions during route planning
                         Log.e("RoutePlanning", "Route planning failed", e)
@@ -368,12 +378,14 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Declare a list to hold your polylines
+    private val polylines = mutableListOf<Polyline>()
+
     /**
      * Draws a route segment on the map using the provided points.
      * @param routePoints List of points defining the route segment.
-     * @param isLastSegment Indicates if this is the last segment of the route, affecting color choice.
      */
-    private fun drawRouteOnMap(routePoints: List<LatLng>, isLastSegment: Boolean) {
+    private fun drawRouteOnMap(routePoints: List<LatLng>) {
         // Create options for drawing the polyline
         val lineOptions = PolylineOptions()
         routePoints.forEach { lineOptions.add(it) }
@@ -381,33 +393,9 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         // Set the color of the route, default is blue
         lineOptions.color(Color.BLUE)
 
-        // If it's the last segment, change color to gray to visually distinguish it
-        if (isLastSegment) lineOptions.color(Color.GRAY)
-
-        // Add the polyline to the map
-        mMap.addPolyline(lineOptions)
-    }
-
-    /**
-     * Adds markers to the map for each point in the route.
-     * @param routePoints List of LatLng points where markers should be placed.
-     */
-    private fun addMarkersToMap(routePoints: List<LatLng>) {
-        routePoints.forEachIndexed { index, latLng ->
-            val markerOptions = MarkerOptions().position(latLng)
-
-            // Assign marker colors based on their position in the route:
-            // - Green for start
-            // - Red for end
-            // - Blue for all intermediate points (stages)
-            when (index) {
-                0 -> markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                routePoints.size - 1 -> markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                else -> markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-            }
-            // Add the marker to the map
-            mMap.addMarker(markerOptions)
-        }
+        // Add the polyline to the map and store it in the polylines list
+        val polyline = mMap.addPolyline(lineOptions)
+        polylines.add(polyline)
     }
 
     /**
@@ -447,7 +435,7 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
     private suspend fun getNearestRoad(latLng: LatLng, apiKey: String): LatLng? = withContext(Dispatchers.IO) {
         val placesUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
                 "location=${latLng.latitude},${latLng.longitude}&" +
-                "radius=500&" + // 500 meters search radius
+                "radius=100&" + // 100 meters search radius
                 "type=route&" + // Looking specifically for roads
                 "key=$apiKey"
         try {
@@ -461,7 +449,7 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
                 LatLng(location.getDouble("lat"), location.getDouble("lng"))
             } else null // No roads found within the radius
         } catch (e: Exception) {
-            Log.e("RoutePlanning", "Failed to find nearest road", e)
+            Log.e("RoutePlanning", "Failed to find a road near Route End or Route Start", e)
             null
         }
     }
