@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,87 +28,100 @@ import org.json.JSONObject
 import java.net.URLEncoder
 import java.net.URL
 import com.google.maps.android.PolyUtil
+import com.google.maps.android.SphericalUtil
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Job
 
-class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
+// This interface defines methods that the fragment will use to communicate with this activity.
+interface RouteActions {
+    fun planRoute(): Boolean
+    fun removeStageMarkers()
+}
 
-    // Google Map instance for this activity
+interface RemoveStageListener {
+    fun removeStageMarkers()
+}
+
+// The AddRoutePageActivity is an AppCompatActivity that also implements Google Map callbacks and RouteActions for interaction with a map fragment.
+class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback, RouteActions, FragmentAddRoute.RemoveStageListener  {
+
+    // This will store the GoogleMap instance once it's loaded.
     private lateinit var mMap: GoogleMap
 
-    // Current color for marker placement based on route stage
+    // Color for new markers, changes based on what part of the route we're adding.
     private var markerColor: Float = BitmapDescriptorFactory.HUE_GREEN
 
-    // UI components for selecting different stages of the route
+    // CardViews used as buttons for selecting different stages of route creation.
     private lateinit var startRouteCard: CardView
     private lateinit var endRouteCard: CardView
     private lateinit var stageRouteCard: CardView
 
-    // List to manage all markers placed on the map
+    // List to keep track of all markers on the map for management or removal.
     private var markers = mutableListOf<Marker>()
 
-    // Stores the last clicked location on the map
+    // Keeps the last clicked location for potential use in marker placement or route planning.
     private var lastClickedLatLng: LatLng? = null
 
-    // Markers for the start and end points of the route
+    // LatLng objects to store the start and end points of the route.
     private var startMarker: LatLng? = null
     private var endMarker: LatLng? = null
 
-    // List to manage stage markers (intermediate points in the route)
+    // Mutable list to store intermediate stage markers for the route.
     private val stageMarkers = mutableListOf<LatLng>()
+
+    // Add this property to keep track of route planning success
+    var isRoutePlanningSuccessful = false
+
+    // Declare a list to hold your polylines
+    private val polylines = mutableListOf<Polyline>()
+
+    // List to store nearby transit stops
+    val nearbyStops = mutableListOf<LatLng>()
+
+    // If you're using GlobalScope, consider using a Job to manage the coroutine lifecycle
+    var globalScopeJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Enable edge-to-edge display for better UI on devices with gesture navigation
+        // Edge-to-edge enables a modern UI design that extends to the edges of the screen.
         enableEdgeToEdge()
-        // Set the layout for this activity
+        // This sets the layout for this activity from XML.
         setContentView(R.layout.add_route_page)
 
-        // Initialize UI components
+        // Initialize UI components by finding them in the layout.
         startRouteCard = findViewById(R.id.start_route_card)
         endRouteCard = findViewById(R.id.end_route_card)
         stageRouteCard = findViewById(R.id.stage_card)
 
-        // Navigation icons setup
+        // Setup navigation icons which are likely UI elements for navigation between activities.
         val homeIcon = findViewById<CardView>(R.id.home_icon_card)
         val backIcon = findViewById<ImageView>(R.id.back_icon)
         val profileIcon = findViewById<CardView>(R.id.profile_icon_card)
         val receiptsIcon = findViewById<CardView>(R.id.receipts_icon_card)
 
-        // Set up click listeners for navigation and route planning
+        // Set click listeners for navigation. These will start new activities or close the current one.
         receiptsIcon.setOnClickListener { startActivity(Intent(this, ReceiptsActivity::class.java)) }
         profileIcon.setOnClickListener { startActivity(Intent(this, ProfileActivity::class.java)) }
-        backIcon.setOnClickListener { finish() }
+        backIcon.setOnClickListener { finish() } // Closes this activity
         homeIcon.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
 
-        // Set up click listeners for route stage selection
+        // Set click listeners for selecting different parts of the route (start, end, stages).
         startRouteCard.setOnClickListener { changeToStartRoute() }
         endRouteCard.setOnClickListener { changeToEndRoute() }
         stageRouteCard.setOnClickListener { changeToStageRoute() }
 
-        // Button to initiate route planning
-        val addRouteBtn = findViewById<View>(R.id.add_route_btn)
-        addRouteBtn.setOnClickListener {
-            // Clear only the polylines before planning a new route
-            clearPolylines()
-            planRoute()
-        }
-
-        // Asynchronously load the Google Map
+        // Asynchronously load the Google Map. This callback will be called when the map is ready.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-        // Set initial state to start route if it's a new instance
+        // If this is a new instance of the activity, set the initial state to start route selection.
         if (savedInstanceState == null) {
             changeToStartRoute()
+            // Add the FragmentAddRoute to the activity's layout.
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_route, FragmentAddRoute())
+                .commit()
         }
-    }
-
-    /**
-     * Removes Route everytime to allow new route to be drawn each time the user clicks add route.
-     */
-    private fun clearPolylines() {
-        polylines.forEach { it.remove() }
-        polylines.clear()
     }
 
     /**
@@ -270,77 +283,219 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
     /**
      * Plans the route based on the start, end, and stage markers placed on the map.
      */
-    private fun planRoute() {
-        when {
-            // Check if start marker is set, if not, prompt user
-            startMarker == null -> Toast.makeText(this, "Add route start", Toast.LENGTH_SHORT).show()
+    override fun planRoute(): Boolean {
+        if (startMarker == null || endMarker == null || !::mMap.isInitialized) {
+            Toast.makeText(this, "Please set both start and end points or wait for map to initialize", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
-            // Check if end marker is set, if not, prompt user
-            endMarker == null -> Toast.makeText(this, "Add route end", Toast.LENGTH_SHORT).show()
+        clearPolylines()
+        val apiKey = getGoogleMapsApiKey() ?: run {
+            Toast.makeText(this, "API Key not found", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
-            // Check if at least one stage marker is set, if not, prompt user
-            stageMarkers.size < 5 -> Toast.makeText(this, "You should have at least five stages", Toast.LENGTH_SHORT).show()
-
-            else -> {
-                // Retrieve the API key or return if not available
-                val apiKey = getGoogleMapsApiKey() ?: return
-
-                // Launch coroutine in the main thread for UI updates
-                GlobalScope.launch(Dispatchers.Main) {
-                    try {
-                        // List to store all points in the route
-                        val routePoints = mutableListOf<LatLng>()
-
-                        // Find the nearest road to the start marker or use the marker if no road found
-                        val startRoad = getNearestRoad(startMarker!!, apiKey) ?: startMarker!!
-                        routePoints.add(startRoad)
-
-                        // For each stage marker, find the nearest transit stop
-                        for (stage in stageMarkers) {
-                            val stageStop = getNearestTransitStop(stage, apiKey)
-                            if (stageStop != null) {
-                                routePoints.add(stageStop)
-                            }
-                        }
-
-                        // Find the nearest road to the end marker or use the marker if no road found
-                        val endRoad = getNearestRoad(endMarker!!, apiKey) ?: endMarker!!
-                        routePoints.add(endRoad)
-
-                        // Loop through adjacent points to fetch directions
-                        for (i in 0 until routePoints.size - 1) {
-                            val from = routePoints[i]
-                            val to = routePoints[i + 1]
-
-                            // Construct URL for Google Directions API
-                            val directionsUrl = "https://maps.googleapis.com/maps/api/directions/json?" +
-                                    "origin=${URLEncoder.encode("${from.latitude},${from.longitude}", "UTF-8")}&" +
-                                    "destination=${URLEncoder.encode("${to.latitude},${to.longitude}", "UTF-8")}&" +
-                                    "mode=driving&" +
-                                    "key=$apiKey"
-
-                            // Fetch the route points from Google Directions API
-                            val routeResult = fetchDirections(directionsUrl)
-
-                            if (routeResult != null) {
-                                // Draw the route segment on the map, check if it's the last segment
-                                drawRouteOnMap(routeResult)
-                            } else {
-                                // Show error message if fetching route segment fails
-                                Toast.makeText(this@AddRoutePageActivity, "Failed to fetch route segment", Toast.LENGTH_SHORT).show()
-                                break
-                            }
-                        }
-
-                    } catch (e: Exception) {
-                        // Log and show any exceptions during route planning
-                        Log.e("RoutePlanning", "Route planning failed", e)
-                        Toast.makeText(this@AddRoutePageActivity, "Route planning failed: ${e.message}", Toast.LENGTH_SHORT).show()
+        globalScopeJob = lifecycleScope.launch(Dispatchers.Main) {
+            try {
+                val routePoints = mutableListOf<LatLng>()
+                routePoints.add(getNearestRoad(startMarker!!, apiKey) ?: startMarker!!)
+                stageMarkers.forEach { stageMarker ->
+                    val stageStop = getNearestTransitStop(stageMarker, apiKey)
+                    if (stageStop != null) {
+                        routePoints.add(stageStop)
                     }
                 }
+                routePoints.add(getNearestRoad(endMarker!!, apiKey) ?: endMarker!!)
+
+                val routeSegments = mutableListOf<List<LatLng>>()
+                for (i in 0 until routePoints.size - 1) {
+                    val segment = fetchDirections(constructDirectionsUrl(routePoints[i], routePoints[i + 1], apiKey))
+                    if (segment == null) {
+                        handleRoutePlanningError(NullPointerException("Failed to fetch directions for segment"))
+                        return@launch
+                    }
+                    routeSegments.add(segment)
+                }
+
+                findTransitStopsOnRoute(routeSegments, apiKey)
+                routeSegments.forEach { drawRouteOnMap(it) }
+
+                val result = true
+                (this@AddRoutePageActivity).runOnUiThread {
+                    routePlanningCompleted(result)
+                    isRoutePlanningSuccessful = result
+                }
+            } catch (e: Exception) {
+                handleRoutePlanningError(e)
+            }
+        }
+        return true
+    }
+
+    /**
+     * Constructs the URL for the Google Directions API.
+     * @param from The starting LatLng of the segment.
+     * @param to The ending LatLng of the segment.
+     * @param apiKey The API key for authentication.
+     * @return String URL for the Directions API.
+     */
+    private fun constructDirectionsUrl(from: LatLng, to: LatLng, apiKey: String): String {
+        return "https://maps.googleapis.com/maps/api/directions/json?" +
+                "origin=${URLEncoder.encode("${from.latitude},${from.longitude}", "UTF-8")}&" +
+                "destination=${URLEncoder.encode("${to.latitude},${to.longitude}", "UTF-8")}&" +
+                "mode=driving&" +
+                "key=$apiKey"
+    }
+
+    /**
+     * Searches for transit stops that lie on the route segments.
+     * @param segments List of route segments where each segment is a list of LatLng points.
+     * @param apiKey The Google Maps API key.
+     */
+    private suspend fun findTransitStopsOnRoute(segments: List<List<LatLng>>, apiKey: String) {
+        segments.forEach { segment ->
+            val stops = getNearbyTransitStops(segment, apiKey)
+            nearbyStops.addAll(stops)
+        }
+    }
+
+    /**
+     * Finds transit stops within 10 meters of the route segment.
+     * @param segment List of points representing a route segment.
+     * @param apiKey The Google Maps API key.
+     * @return List of LatLng points representing transit stops near the segment.
+     */
+    private suspend fun getNearbyTransitStops(segment: List<LatLng>, apiKey: String): List<LatLng> {
+        return withContext(Dispatchers.IO) {
+            segment.filter { point ->
+                getNearestTransitStop(point, apiKey)?.let { stop ->
+                    getDistanceToPolyline(stop, segment) <= 10.0  // 10 meters threshold
+                } ?: false
             }
         }
     }
+
+    /**
+     * Calculates the distance from a point to the closest point on the polyline.
+     * @param point The point to check (LatLng).
+     * @param polyline List of points representing the route segment.
+     * @return Distance in meters.
+     */
+    /**
+     * Calculates the distance from a point to the closest point on the polyline.
+     * @param point The point to check (LatLng).
+     * @param polyline List of points representing the route segment.
+     * @return Distance in meters.
+     */
+    private fun getDistanceToPolyline(point: LatLng, polyline: List<LatLng>): Double {
+        var minDistance = Double.MAX_VALUE
+        for (i in 0 until polyline.size - 1) {
+            val segmentStart = polyline[i]
+            val segmentEnd = polyline[i + 1]
+
+            // Distance from point to segmentStart
+            val distanceStart = SphericalUtil.computeDistanceBetween(point, segmentStart)
+
+            // Distance from point to segmentEnd
+            val distanceEnd = SphericalUtil.computeDistanceBetween(point, segmentEnd)
+
+            // If the point is close to the start or end of the segment, use this distance
+            if (distanceStart < minDistance) minDistance = distanceStart
+            if (distanceEnd < minDistance) minDistance = distanceEnd
+
+            // Now check if the point is closest to a point on the line segment itself
+            val v = LatLng(segmentEnd.latitude - segmentStart.latitude, segmentEnd.longitude - segmentStart.longitude)
+            val w = LatLng(point.latitude - segmentStart.latitude, point.longitude - segmentStart.longitude)
+
+            val c1 = w.latitude * v.longitude - w.longitude * v.latitude
+            if (c1 > 0) continue;  // The point is not on the left side of the segment
+
+            if (c1 < 0) {
+                // Point is on the left side, but check if it's within the segment limits
+                val dot = w.latitude * v.latitude + w.longitude * v.longitude
+                if (dot < 0) continue;  // Point is before the segment
+
+                // Point is beyond the end of the segment
+                val len2 = v.latitude * v.latitude + v.longitude * v.longitude
+                if (dot > len2) continue;
+
+                // Project the point onto the line
+                val proj = dot / len2
+                val linePoint = LatLng(
+                    segmentStart.latitude + proj * v.latitude,
+                    segmentStart.longitude + proj * v.longitude
+                )
+                val distanceToLine = SphericalUtil.computeDistanceBetween(point, linePoint)
+                if (distanceToLine < minDistance) {
+                    minDistance = distanceToLine
+                }
+            }
+        }
+        return minDistance
+    }
+
+    // This function will be called on the UI thread with the result of route planning
+    private fun routePlanningCompleted(success: Boolean) {
+        // Here you can handle what to do once the route planning is finished
+        // For example, update UI or store success status in a variable
+        // If you want to use this result elsewhere, you might want to use a shared variable or LiveData
+        isRoutePlanningSuccessful = success
+        println("Route planning completed with success: $success")
+
+        if (success) {
+            // Log nearby stops
+            logNearbyStops()
+
+            // Add markers for nearby transit stops
+            markNearbyStops()
+
+            // Navigate to FragmentNameRoute if route planning was successful
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_route, FragmentNameRoute())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    /**
+     * Marks nearby transit stops on the map with yellow pins.
+     */
+    private fun markNearbyStops() {
+        nearbyStops.forEach { stop ->
+            mMap.addMarker(MarkerOptions()
+                .position(stop)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                .title("Transit Stop"))
+        }
+    }
+
+    /**
+     * Logs the coordinates of all nearby transit stops to Logcat.
+     */
+    private fun logNearbyStops() {
+        if (nearbyStops.isNotEmpty()) {
+            Log.d("RoutePlanning", "Nearby Transit Stops:")
+            nearbyStops.forEachIndexed { index, stop ->
+                Log.d("RoutePlanning", "Stop ${index + 1}: Latitude ${stop.latitude}, Longitude ${stop.longitude}")
+            }
+        } else {
+            Log.d("RoutePlanning", "No transit stops were found near the route.")
+        }
+    }
+
+    /**
+     * Handles errors that occur during route planning by logging them and updating the UI.
+     * @param exception The Exception that occurred during route planning.
+     */
+    private fun handleRoutePlanningError(exception: Exception) {
+        Log.e("RoutePlanning", "Route planning failed", exception)
+        Toast.makeText(this, "Route planning failed: ${exception.message}", Toast.LENGTH_SHORT).show()
+        runOnUiThread {
+            routePlanningCompleted(false)
+            isRoutePlanningSuccessful = false
+        }
+    }
+
 
     /**
      * Fetches route directions from Google Maps API for given origin and destination.
@@ -378,8 +533,6 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    // Declare a list to hold your polylines
-    private val polylines = mutableListOf<Polyline>()
 
     /**
      * Draws a route segment on the map using the provided points.
@@ -396,6 +549,14 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         // Add the polyline to the map and store it in the polylines list
         val polyline = mMap.addPolyline(lineOptions)
         polylines.add(polyline)
+    }
+
+    /**
+     * Removes Route everytime to allow new route to be drawn each time the user clicks add route.
+     */
+    private fun clearPolylines() {
+        polylines.forEach { it.remove() }
+        polylines.clear()
     }
 
     /**
@@ -495,9 +656,18 @@ class AddRoutePageActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun removeStageMarkers() {
+        // Remove all markers of type HUE_BLUE
+        removeMarkerOfType(BitmapDescriptorFactory.HUE_BLUE)
+        // Clear the stage markers list if necessary
+        stageMarkers.clear()
+    }
+
     companion object {
         // Constant for identifying location permission request
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
+
+
 }
 

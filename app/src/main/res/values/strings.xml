@@ -1,6 +1,6 @@
 <resources>
     //API_KEY
-    <string name="google_maps_api_key">AIzaSyAdfpBtV9InB9UhIbsq4PJBE2V0hctT1mQ</string>
+    <string name="google_maps_api_key">AIzaSyB6c8CH2zz0Z27o_MWBqgfgtXXF-rKOZdg</string>
 
     //Other text used in the app
     <string name="home_icon_text">Home Icon</string>
@@ -72,8 +72,20 @@
 
     <string name="instruction_route_stage">Pin Atleast 5 Stages on the Map</string>
 
-    <string name="instruction_txt">Tap Route Start, Route End and Stage Above to Pin Location on Map</string>
+    <string name="adding_route_instruction_txt">TAP ROUTE START, ROUTE END AND STAGE ABOVE TO PIN LOCATION ON MAP</string>
 
+    <string name="remove_stages_btn_txt">Remove All Stages</string>
     <string name="confirm_route_btn_txt">Add Route</string>
 
+    <string name="naming_fragment_instructions">TAP CHANGE ROUTE TO CHANGE ROUTE. TAP NAME TO CONTINUE</string>
+
+    <string name="name_route_btn_txt">Change Route</string>
+    <string name="back_to_add_route_btn_txt">Name Route</string>
+
+    <string name="add_route_txt">Add New Route</string>
+
+    <string name="route_start_txt">Name of Route Start:</string>
+    <string name="route_end_txt">Name of Route End:</string>
+    <string name="route_fair_txt">Add Fair For Route</string>
+    <string name="add_route_btn_txt">Add Route</string>
 </resources>

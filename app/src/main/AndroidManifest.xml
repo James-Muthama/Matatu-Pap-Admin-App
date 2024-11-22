@@ -37,6 +37,7 @@
         <activity android:name=".RemoveBusPageActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ReceiptsActivity" />
+        <activity android:name=".NameRouteActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
