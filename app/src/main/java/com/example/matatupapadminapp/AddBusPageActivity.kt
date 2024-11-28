@@ -52,7 +52,7 @@ class AddBusPageActivity : AppCompatActivity() {
 
             // Validate user input before proceeding
             if (numberPlate.isNotEmpty() && routeStart.isNotEmpty() && routeEnd.isNotEmpty() && code.isNotEmpty() && paymentMethod.isNotEmpty()) {
-                findUserId(numberPlate, routeStart, routeEnd, code, paymentMethod) // Call function to add bus if input is valid
+                findUserId(numberPlate, routeStart, routeEnd, code, paymentMethod)
             } else {
                 // Show a warning if any field is empty
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
@@ -73,7 +73,7 @@ class AddBusPageActivity : AppCompatActivity() {
 
         // Set up "back" navigation to the previous activity
         backIcon.setOnClickListener {
-            finish() // Close current activity and go back
+            finish()
         }
 
         // Set up navigation to the home/main activity
@@ -85,53 +85,38 @@ class AddBusPageActivity : AppCompatActivity() {
 
     // Check if the user is authenticated and call the function to add a bus
     private fun findUserId(numberPlate: String, routeStart: String, routeEnd: String, code: String, paymentMethod: String) {
-        val userId = auth.currentUser?.uid // Get the current user ID
+        val userId = auth.currentUser?.uid
         if (userId != null) {
-            // Call the function to add the bus data
             addBusInfo(userId, numberPlate, routeStart, routeEnd, code, paymentMethod)
         } else {
-            // Show a warning if the user is not authenticated
             Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Add bus data to Firebase Realtime Database
+    // Add bus data to Firebase Realtime Database with the simplified structure
     private fun addBusInfo(userId: String, numberPlate: String, routeStart: String, routeEnd: String, code: String, paymentMethod: String) {
         // Reference to the specific user's buses node in the database
-        val userBusRef = database.child(userId)
+        val userBusRef = database.child(userId).child(numberPlate)
 
-        // Fetch existing data to determine the next bus ID dynamically
-        userBusRef.get().addOnSuccessListener { dataSnapshot ->
-            // Calculate the next bus index based on the number of existing child nodes
-            val nextBusIndex = (dataSnapshot.childrenCount + 1).toInt() // Increment index for a new bus
-            val newBusId = "bus$nextBusIndex" // Create a new bus ID (e.g., "bus1", "bus2")
+        // Create a map to hold the bus data
+        val busData = mapOf(
+            "bus code" to code,
+            "payment method" to paymentMethod,
+            "route start" to routeStart,
+            "route end" to routeEnd
+        )
 
-            // Create a map to hold the new bus data
-            val newBusData = mapOf(
-                "number plate" to numberPlate,
-                "route start" to routeStart,
-                "route end" to routeEnd,
-                "bus code" to code,
-                "payment method" to paymentMethod
-            )
-
-            // Store the new bus data under the generated bus ID
-            userBusRef.child(newBusId).setValue(newBusData)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Show success message and navigate to the home activity
-                        Toast.makeText(this, "Bus Added Successfully!", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish() // Remove this activity from the back stack
-                    } else {
-                        // Show error message if storing data fails
-                        Toast.makeText(this, "Failed to add bus: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                    }
+        // Store the bus data directly under the number plate
+        userBusRef.setValue(busData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Bus Added Successfully!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, "Failed to add bus: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
-        }.addOnFailureListener { e ->
-            // Handle errors that occur while fetching data
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-        }
+            }
     }
 }

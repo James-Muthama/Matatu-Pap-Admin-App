@@ -74,10 +74,10 @@
 
     <string name="adding_route_instruction_txt">TAP ROUTE START, ROUTE END AND STAGE ABOVE TO PIN LOCATION ON MAP</string>
 
-    <string name="remove_stages_btn_txt">Remove All Stages</string>
+    <string name="remove_stages_btn_txt">Remove Stage</string>
     <string name="confirm_route_btn_txt">Add Route</string>
 
-    <string name="naming_fragment_instructions">TAP CHANGE ROUTE TO CHANGE ROUTE. TAP NAME TO CONTINUE</string>
+    <string name="naming_fragment_instructions">TAP CHANGE ROUTE TO GO BACK AND CHANGE ROUTE. TAP NAME ROUTE TO CONTINUE</string>
 
     <string name="name_route_btn_txt">Change Route</string>
     <string name="back_to_add_route_btn_txt">Name Route</string>

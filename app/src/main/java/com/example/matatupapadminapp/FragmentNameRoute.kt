@@ -19,29 +19,47 @@ class FragmentNameRoute : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_name_route, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        textView = view.findViewById(R.id.textView) // Ensure this ID exists in your layout
-        nameRouteButton = view.findViewById(R.id.name_route_btn) // Assuming this ID
-        backToAddRouteButton = view.findViewById(R.id.back_to_add_route_btn) // Ensure this ID matches in your layout
+        textView = view.findViewById(R.id.textView)
+        nameRouteButton = view.findViewById(R.id.name_route_btn)
+        backToAddRouteButton = view.findViewById(R.id.back_to_add_route_btn)
 
+        // Set click listener for back_to_add_route_btn to go back to FragmentAddRoute
         backToAddRouteButton.setOnClickListener {
-            requireActivity().finish()
+            goBackToPreviousFragment()
         }
 
-        // Now set the click listener
+        // Set click listener for name_route_btn to start NameRouteActivity with route details
         nameRouteButton.setOnClickListener {
             val intent = Intent(requireContext(), NameRouteActivity::class.java)
+
+            // Retrieve routeStart and routeEnd from arguments if passed
+            val routeStart = arguments?.getParcelable<LatLng>("routeStart")
+            val routeEnd = arguments?.getParcelable<LatLng>("routeEnd")
+
+            // Get nearby stops
             val nearbyStops = arguments?.getParcelableArrayList<LatLng>("nearbyStops")
                 ?: (activity as? AddRoutePageActivity)?.nearbyStops
 
+            // Add routeStart, routeEnd, and nearbyStops to the intent
+            if (routeStart != null) {
+                intent.putExtra("routeStart", routeStart)
+            }
+            if (routeEnd != null) {
+                intent.putExtra("routeEnd", routeEnd)
+            }
             intent.putParcelableArrayListExtra("nearbyStops", ArrayList(nearbyStops ?: emptyList()))
+
             startActivity(intent)
         }
+    }
+
+    private fun goBackToPreviousFragment() {
+        parentFragmentManager.popBackStack()
     }
 }
