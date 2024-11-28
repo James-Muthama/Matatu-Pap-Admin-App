@@ -60,7 +60,8 @@ class AddBusPageActivity : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
         // Handle click for the "Add Bus" button
         addBusBtn.setOnClickListener {
-            val numberPlate = busNumberPlate.text.toString()
+            // Remove spaces from number plate
+            val numberPlate = busNumberPlate.text.toString().replace("\\s".toRegex(), "")
             val selectedRoute = routeSpinner.selectedItem.toString()
             val code = busCode.text.toString()
             val paymentMethod = busPaymentMethod.text.toString()

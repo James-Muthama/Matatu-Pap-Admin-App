@@ -16,7 +16,7 @@
     <string name="greetings_text">Greetings, User</string>
 
     <string name="add_bus_text">Add Bus into Sacco</string>
-    <string name="remove_bus_text">Remove Existing Bus</string>
+    <string name="remove_bus_text">Remove Or Update Bus</string>
     <string name="add_route_text">Add Route</string>
     <string name="change_route_prices_text">Change Route Prices</string>
 
@@ -42,8 +42,7 @@
 
     <string name="search_bus_text">Search Bus Number Plate</string>
     <string name="bus_plate_text">Bus Plate</string>
-    <string name="route_start_text">Route Start</string>
-    <string name="route_end_text">Route End</string>
+    <string name="route_name_text">Route Name</string>
 
     <string name="customer_info_text">Customer Info:</string>
     <string name="edit_password_text">Edit Password</string>
@@ -87,4 +86,9 @@
     <string name="route_end_txt">Name of Route End:</string>
     <string name="route_fair_txt">Add Fair For Route</string>
     <string name="add_route_btn_txt">Add Route</string>
+
+    <string name="update_btn_txt">UPDATE</string>
+
+    <string name="update_btn_text">UPDATE BUS</string>
+    <string name="update_bus_txt">Update Bus Details</string>
 </resources>
