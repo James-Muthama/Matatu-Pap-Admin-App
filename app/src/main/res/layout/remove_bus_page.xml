@@ -174,7 +174,7 @@
             app:cardBackgroundColor="#959179">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -182,7 +182,7 @@
                 app:srcCompat="@drawable/search_icon" />
 
             <EditText
-                android:id="@+id/add_route_end_input_input"
+                android:id="@+id/bus_number_plate_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#959179"
@@ -191,7 +191,8 @@
                 android:padding="30dp"
                 android:textColor="#000000"
                 android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000" />
+                android:textColorHint="#000000"
+                tools:ignore="TextFields" />
 
         </androidx.cardview.widget.CardView>
 
@@ -210,7 +211,7 @@
                 android:showDividers="middle|beginning|end">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/bus_plate_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -220,7 +221,7 @@
                     android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/route_start_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -230,7 +231,7 @@
                     android:textColor="#100000" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/route_end_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -241,7 +242,7 @@
             </TableRow>
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/delete_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"

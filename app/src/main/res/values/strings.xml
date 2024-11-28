@@ -22,8 +22,7 @@
 
     <string name="add_new_bus_text">Add New Bus</string>
     <string name="add_new_number_plate_text">Add Number Plate:</string>
-    <string name="add_route_start_text">Add Route Start:</string>
-    <string name="add_route_end_text">Add Route End:</string>
+    <string name="add_route_start_text">Add Route:</string>
     <string name="add_code_text">Add Bus Code:</string>
     <string name="add_payment_method_text">Choose Payment Method:</string>
     <string name="add_bus_txt">Add Bus</string>

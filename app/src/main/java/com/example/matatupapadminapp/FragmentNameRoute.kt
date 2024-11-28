@@ -25,7 +25,6 @@ class FragmentNameRoute : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        textView = view.findViewById(R.id.textView)
         nameRouteButton = view.findViewById(R.id.name_route_btn)
         backToAddRouteButton = view.findViewById(R.id.back_to_add_route_btn)
 

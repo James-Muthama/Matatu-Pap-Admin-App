@@ -107,58 +107,15 @@
                     android:textColorHint="#000000"
                     tools:ignore="TextFields" />
 
-                <LinearLayout
+                <Spinner
+                    android:id="@+id/bus_route_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:orientation="horizontal">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1">
-
-                        <EditText
-                            android:id="@+id/bus_route_start"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="15dp"
-                            android:background="#FFFFFF"
-                            android:hint="@string/add_route_start_text"
-                            android:inputType="text"
-                            android:padding="5dp"
-                            android:textColor="#000000"
-                            android:textColorHighlight="#0B0707"
-                            android:textColorHint="#000000"
-                            tools:ignore="TextFields" />
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1">
-
-                        <EditText
-                            android:id="@+id/bus_route_end"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="15dp"
-                            android:background="#FFFFFF"
-                            android:hint="@string/add_route_end_text"
-                            android:padding="5dp"
-                            android:textColor="#000000"
-                            android:textColorHighlight="#0B0707"
-                            android:textColorHint="#000000"
-                            tools:ignore="TextFields" />
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="#FFFFFF"
+                    android:padding="20dp"
+                    tools:ignore="TextFields"/>
 
                 <EditText
                     android:id="@+id/bus_code"
