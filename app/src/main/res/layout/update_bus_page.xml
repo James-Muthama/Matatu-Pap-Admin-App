@@ -78,18 +78,28 @@
                 android:layout_gravity="center_horizontal"
                 android:background="#9D00FF"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="20dp">
 
                 <TextView
                     android:id="@+id/form_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|top"
-                    android:layout_margin="10dp"
-                    android:text="@string/update_bus_txt"
+                    android:layout_margin="15dp"
+                    android:text="@string/update_btn_text_small"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="#FFFFFF"
                     android:textSize="45sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/bus_plate_txt"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -97,48 +107,81 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     android:background="#FFFFFF"
-                    android:hint="@string/add_new_number_plate_text"
+                    android:hint="@string/bus_plate_txt"
                     android:inputType="text"
                     android:padding="20dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
                     android:textColorHint="#000000"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     tools:ignore="TextFields" />
+
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/choose_route_txt"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/bus_route_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     android:background="#FFFFFF"
                     android:padding="20dp"
-                    tools:ignore="TextFields"/>
+                    tools:ignore="TextFields" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/bus_code_txt"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/bus_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     android:background="#FFFFFF"
-                    android:hint="@string/add_code_text"
+                    android:hint="@string/bus_code_txt"
                     android:padding="20dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
                     android:textColorHint="#000000"
                     tools:ignore="TextFields" />
 
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/bus_payment_txt"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/bus_payment_method"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     android:background="#FFFFFF"
-                    android:hint="@string/add_payment_method_text"
+                    android:hint="@string/bus_payment_txt"
                     android:padding="20dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
@@ -149,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     app:cardCornerRadius="25dp">
 
                     <Button
@@ -158,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:background="#959179"
-                        android:padding="25dp"
+                        android:padding="20dp"
                         android:text="@string/update_btn_text" />
                 </androidx.cardview.widget.CardView>
 

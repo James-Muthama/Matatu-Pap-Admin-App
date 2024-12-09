@@ -91,4 +91,15 @@
 
     <string name="update_btn_text">UPDATE BUS</string>
     <string name="update_bus_txt">Update Bus Details</string>
+
+    <string name="update_btn_text_small">Update Bus</string>
+
+
+    <string name="add_bus_example_txt">eg: KAA 123J</string>
+    <string name="add_code_example_txt">eg: 1234</string>
+
+    <string name="bus_plate_txt">Number Plate:</string>
+    <string name="choose_route_txt">Choose Route:</string>
+    <string name="bus_code_txt">Bus Code:</string>
+    <string name="bus_payment_txt">Payment Method:</string>
 </resources>

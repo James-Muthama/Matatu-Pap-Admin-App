@@ -56,12 +56,12 @@ class MainActivity : ComponentActivity() {
 
         // Set onClickListeners for each card to navigate to the corresponding activities
         addBusCard.setOnClickListener {
-            val intent = Intent(this, AddBusPageActivity::class.java)
+            val intent = Intent(this, AddBusActivity::class.java)
             startActivity(intent)
         }
 
         removeBusCard.setOnClickListener {
-            val intent = Intent(this, RemoveBusPageActivity::class.java)
+            val intent = Intent(this, RemoveOrUpdateBusActivity::class.java)
             startActivity(intent)
         }
 
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
         }
 
         changeRoutePrice.setOnClickListener {
-            val intent = Intent(this, ChangeRoutePageActivity::class.java)
+            val intent = Intent(this, ChangeRouteActivity::class.java)
             startActivity(intent)
         }
 

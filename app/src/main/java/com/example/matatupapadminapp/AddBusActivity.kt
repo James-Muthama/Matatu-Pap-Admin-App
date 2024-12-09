@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class AddBusPageActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     // Firebase authentication and database references
     private lateinit var auth: FirebaseAuth
     private lateinit var busDatabase: DatabaseReference
@@ -122,7 +122,7 @@ class AddBusPageActivity : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Display an error message if the fetch fails
-                    Toast.makeText(this@AddBusPageActivity, "Failed to load routes", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AddBusActivity, "Failed to load routes", Toast.LENGTH_SHORT).show()
                 }
             })
         }

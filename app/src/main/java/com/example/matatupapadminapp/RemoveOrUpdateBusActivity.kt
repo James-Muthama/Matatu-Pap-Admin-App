@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class RemoveBusPageActivity : AppCompatActivity() {
+class RemoveOrUpdateBusActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
@@ -121,13 +121,13 @@ class RemoveBusPageActivity : AppCompatActivity() {
                     val routeName = busData["route name"] as? String ?: "Unknown"
                     displayBus(numberPlate, routeName)
                 } else {
-                    Toast.makeText(this@RemoveBusPageActivity, "No Bus Matches the Number Plate", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RemoveOrUpdateBusActivity, "No Bus Matches the Number Plate", Toast.LENGTH_SHORT).show()
                     fetchBuses()
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@RemoveBusPageActivity, "Failed to search bus: ${databaseError.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@RemoveOrUpdateBusActivity, "Failed to search bus: ${databaseError.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -146,8 +146,10 @@ class RemoveBusPageActivity : AppCompatActivity() {
 
         // Update Button functionality
         updateButton.setOnClickListener {
-            // Placeholder for update logic
-            Toast.makeText(this, "Update functionality not implemented", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, UpdateBusActivity::class.java)
+            intent.putExtra("numberPlate", numberPlate)
+            intent.putExtra("routeName", routeName)
+            startActivity(intent)
         }
 
         // Delete functionality

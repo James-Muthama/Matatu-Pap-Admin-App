@@ -32,12 +32,13 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".AddRoutePageActivity" />
-        <activity android:name=".AddBusPageActivity" />
-        <activity android:name=".ChangeRoutePageActivity" />
-        <activity android:name=".RemoveBusPageActivity" />
+        <activity android:name=".AddBusActivity" />
+        <activity android:name=".ChangeRouteActivity" />
+        <activity android:name=".RemoveOrUpdateBusActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ReceiptsActivity" />
         <activity android:name=".NameRouteActivity" />
+        <activity android:name=".UpdateBusActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
