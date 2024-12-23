@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
         }
 
         changeRoutePrice.setOnClickListener {
-            val intent = Intent(this, ChangeRouteActivity::class.java)
+            val intent = Intent(this, ChangeRoutePricesOrNameActivity::class.java)
             startActivity(intent)
         }
 

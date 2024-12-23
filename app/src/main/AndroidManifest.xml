@@ -33,7 +33,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".AddRoutePageActivity" />
         <activity android:name=".AddBusActivity" />
-        <activity android:name=".ChangeRouteActivity" />
+        <activity android:name=".ChangeRoutePricesOrNameActivity" />
         <activity android:name=".RemoveOrUpdateBusActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ReceiptsActivity" />

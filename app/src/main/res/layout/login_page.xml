@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="50dp"
         android:background="#9D00FF"
         android:elevation="15dp"
         android:gravity="center"
@@ -90,6 +90,15 @@
                     android:textSize="50sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="@string/sacco_email_text"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
                 <EditText
                     android:id="@+id/bus_route_start"
                     android:layout_width="match_parent"
@@ -99,13 +108,22 @@
                     android:background="#FFFFFF"
                     android:drawableStart="@drawable/mail_icon"
                     android:drawablePadding="15dp"
-                    android:hint="@string/sacco_email_text"
+                    android:hint="@string/sacco_email_instructions"
                     android:inputType="text"
                     android:padding="15dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
                     android:textColorHint="#000000"
                     tools:ignore="TextFields" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="@string/password_text"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/password"
@@ -117,7 +135,7 @@
                     android:drawableStart="@drawable/password_icon"
                     android:drawableEnd="@drawable/visibility_off_icon"
                     android:drawablePadding="15dp"
-                    android:hint="@string/password_text"
+                    android:hint="@string/sacco_pass_instructions"
                     android:inputType="textPassword"
                     android:padding="15dp"
                     android:textColor="#000000"

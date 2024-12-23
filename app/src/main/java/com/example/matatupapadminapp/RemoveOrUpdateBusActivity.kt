@@ -30,7 +30,7 @@ class RemoveOrUpdateBusActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.remove_bus_page)
+        setContentView(R.layout.remove_or_update_bus_page)
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
@@ -103,7 +103,7 @@ class RemoveOrUpdateBusActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle errors here
+                Toast.makeText(this@RemoveOrUpdateBusActivity, "Failed to load buses", Toast.LENGTH_SHORT).show()
             }
         })
     }
