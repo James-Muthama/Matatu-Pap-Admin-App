@@ -128,7 +128,7 @@
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:id="@+id/bus_route_spinner"
+                    android:id="@+id/action_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -193,7 +193,7 @@
                     app:cardCornerRadius="25dp">
 
                     <Button
-                        android:id="@+id/add_bus_btn"
+                        android:id="@+id/save_payment_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="50dp"
         android:background="#9D00FF"
         android:elevation="15dp"
         android:gravity="center"
@@ -83,36 +83,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|top"
                     android:layout_margin="20dp"
-                    android:text="@string/add_route_txt"
+                    android:text="@string/add_payment_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="#FFFFFF"
                     android:textSize="45sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView19"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:text="@string/route_start_txt"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/bus_number_plate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:background="#FFFFFF"
-                    android:hint="@string/route_start_instruction_txt"
-                    android:inputType="text"
-                    android:padding="20dp"
-                    android:textColor="#000000"
-                    android:textColorHighlight="#0B0707"
-                    android:textColorHint="#000000"
-                    tools:ignore="TextFields" />
 
                 <TextView
                     android:id="@+id/textView20"
@@ -120,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
-                    android:text="@string/route_end_txt"
+                    android:text="@string/payment_name"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
@@ -131,11 +106,31 @@
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
                     android:background="#FFFFFF"
-                    android:hint="@string/route_end_instruction_txt"
+                    android:hint="@string/payment_name_instructions"
                     android:padding="20dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
                     android:textColorHint="#000000"
+                    tools:ignore="TextFields" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/buy_goods_number"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/action_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="#FFFFFF"
+                    android:padding="20dp"
                     tools:ignore="TextFields" />
 
                 <TextView
@@ -144,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
-                    android:text="@string/route_fair_txt"
+                    android:text="@string/buy_goods_number"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
@@ -155,7 +150,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
                     android:background="#FFFFFF"
-                    android:hint="@string/route_fair_instruction_txt"
+                    android:hint="@string/buy_goods_number_instructions"
                     android:padding="20dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
@@ -176,7 +171,7 @@
                         android:layout_gravity="center_horizontal"
                         android:background="#959179"
                         android:padding="25dp"
-                        android:text="@string/add_route_btn_txt" />
+                        android:text="@string/add_payment_btn_txt" />
                 </androidx.cardview.widget.CardView>
 
             </LinearLayout>

@@ -50,10 +50,10 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val profileIcon = findViewById<CardView>(R.id.profile_icon_card)
         val receiptsIcon = findViewById<CardView>(R.id.receipts_icon_card)
         val busNumberPlate = findViewById<EditText>(R.id.bus_number_plate)
-        routeSpinner = findViewById(R.id.bus_route_spinner)
+        routeSpinner = findViewById(R.id.action_spinner)
         val busCode = findViewById<EditText>(R.id.bus_code)
         val busPaymentMethod = findViewById<EditText>(R.id.bus_payment_method)
-        val addBusBtn = findViewById<Button>(R.id.add_bus_btn)
+        val addBusBtn = findViewById<Button>(R.id.save_payment_btn)
 
         // Fetch routes from Firebase to populate the spinner
         fetchRoutesFromFirebase()
@@ -175,7 +175,7 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         // You can provide your implementation here
-        if (parent.id == R.id.bus_route_spinner) {
+        if (parent.id == R.id.action_spinner) {
             // Check if the selection is not the default item
             if (position > 0) {
                 // Handle the selection of a real route

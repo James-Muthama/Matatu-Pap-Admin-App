@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="#9D00FF"
+                android:backgroundTint="#959179"
                 app:cardCornerRadius="50dp">
 
                 <Button
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="#9D00FF"
+                android:backgroundTint="#959179"
                 app:cardCornerRadius="50dp">
 
                 <Button

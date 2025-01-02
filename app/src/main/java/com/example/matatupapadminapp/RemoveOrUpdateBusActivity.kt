@@ -141,7 +141,7 @@ class RemoveOrUpdateBusActivity : AppCompatActivity() {
         busView.findViewById<TextView>(R.id.bus_plate_txt).text = formattedNumberPlate
         busView.findViewById<TextView>(R.id.route_name_text).text = routeName
 
-        val updateButton = busView.findViewById<Button>(R.id.button)
+        val updateButton = busView.findViewById<Button>(R.id.update_button)
         val deleteImage = busView.findViewById<ImageView>(R.id.delete_icon)  // Changed ID to match XML
 
         // Update Button functionality

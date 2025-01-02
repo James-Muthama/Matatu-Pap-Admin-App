@@ -6,7 +6,7 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import com.example.matatupapadminapp.R
 
-class ConfirmDeleteRouteFragment : DialogFragment() {
+class FragmentConfirmDeleteRoute : DialogFragment() {
 
     private lateinit var backBtn: Button
     private lateinit var continueDeleteBtn: Button

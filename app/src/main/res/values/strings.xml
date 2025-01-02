@@ -86,7 +86,8 @@
     <string name="route_start_instruction_txt">name of the route start stage</string>
     <string name="route_end_txt">Name of Route End:</string>
     <string name="route_end_instruction_txt">name of the route end stage</string>
-    <string name="route_fair_txt">Add Fair For Route:</string>
+    <string name="route_fair_txt">Add Fare For Route:</string>
+    <string name="route_fair_upd_txt">Update Fare For Route:</string>
     <string name="route_fair_instruction_txt">eg. 100</string>
     <string name="add_route_btn_txt">Add Route</string>
 
@@ -118,4 +119,21 @@
     <string name="sacco_email_instructions">eg: sacco@email.com</string>
 
     <string name="continue_delete_route_text">DELETE</string>
+
+    <string name="update_route_btn_text_small">Update Route Fare</string>
+    <string name="update_route_btn_text">UPDATE ROUTE FARE</string>
+
+    <string name="number_of_routes_txt">Routes</string>
+    <string name="number_of_buses_txt">Buses</string>
+
+    <string name="edit_info_txt">Edit Account Information</string>
+    <string name="add_payment_txt">Add Payment Method</string>
+
+    <string name="add_payment_title">Add Payment</string>
+    <string name="payment_name">Name of Payment:</string>
+    <string name="payment_name_instructions">eg. payment 1</string>
+    <string name="buy_goods_number">Add M-Pesa Payment Details:</string>
+    <string name="buy_goods_number_instructions">eg. 0712345678</string>
+    <string name="add_payment_btn_txt">ADD PAYMENT</string>
+
 </resources>

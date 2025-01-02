@@ -1,6 +1,6 @@
 package com.example.matatupapadminapp
 
-import ConfirmDeleteRouteFragment
+import FragmentConfirmDeleteRoute
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -41,9 +41,8 @@ class ChangeRoutePricesOrNameActivity : AppCompatActivity() {
         val profileIcon = findViewById<CardView>(R.id.profile_icon_card)
         val receiptsIcon = findViewById<CardView>(R.id.receipts_icon_card)
         searchBtn = findViewById(R.id.search_btn)
-        routeNameInput = findViewById(R.id.route_name_input)
-
         routeListContainer = findViewById(R.id.route_list_container)
+        routeNameInput = findViewById(R.id.route_name_input)
 
         receiptsIcon.setOnClickListener {
             val intent = Intent(this, ReceiptsActivity::class.java)
@@ -59,6 +58,17 @@ class ChangeRoutePricesOrNameActivity : AppCompatActivity() {
             finish()
         }
 
+        // Set up the search functionality
+        searchBtn.setOnClickListener {
+            val routeName = routeNameInput.text.toString().trim()
+            if (routeName.isNotEmpty()) {
+                searchRoute(routeName)
+            } else {
+                fetchRoutes()
+                Toast.makeText(this, "Displaying all routes", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         homeIcon.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -66,15 +76,44 @@ class ChangeRoutePricesOrNameActivity : AppCompatActivity() {
 
         fetchRoutes()
 
-        searchBtn.setOnClickListener {
-            val searchText = routeNameInput.text.toString().trim()
-            if (searchText.isNotEmpty()) {
-                searchRoute(searchText)
-            } else {
-                fetchRoutes()
-                Toast.makeText(this, "Displaying all routes", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun searchRoute(routeName: String) {
+        val userId = auth.currentUser?.uid ?: return
+        val normalizedRouteName = routeName.replace("\\s".toRegex(), "_").replace("-", "_").lowercase()
+
+        val routesRef = database.getReference("Routes").child(userId)
+        routesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                routeListContainer.removeAllViews() // Clear existing views before displaying search results
+
+                var matchFound = false
+                dataSnapshot.children.forEach { routeSnapshot ->
+                    val routeKey = routeSnapshot.key?.lowercase()
+                    if (routeKey != null && routeKey.contains(normalizedRouteName)) {
+                        val routeData = routeSnapshot.value as? Map<*, *> ?: return@forEach
+                        val foundRouteName = routeData["name"] as? String ?: "Unknown"
+                        val fare = try {
+                            routeData["fare"] as? Long ?: 0L
+                        } catch (e: Exception) {
+                            0L // Default to 0 if there's an error parsing the fare
+                        }
+
+                        displayRoute(foundRouteName, fare.toString())
+                        matchFound = true
+                    }
+                }
+
+                if (!matchFound) {
+                    Toast.makeText(this@ChangeRoutePricesOrNameActivity, "No Route Matches the Name", Toast.LENGTH_SHORT).show()
+                    fetchRoutes() // Re-display all routes if no match is found
+                }
             }
-        }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(this@ChangeRoutePricesOrNameActivity, "Failed to search route: ${databaseError.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun fetchRoutes() {
@@ -86,7 +125,12 @@ class ChangeRoutePricesOrNameActivity : AppCompatActivity() {
                 routeListContainer.removeAllViews()
                 for (routeSnapshot in dataSnapshot.children) {
                     val routeName = routeSnapshot.child("name").getValue(String::class.java) ?: continue
-                    val fare = routeSnapshot.child("fare").getValue(Long::class.java)?.toString() ?: continue
+
+                    val fare = try {
+                        routeSnapshot.child("fare").getValue(Long::class.java)?.toString() ?: "0"
+                    } catch (e: Exception) {
+                        "Error: ${e.message}"
+                    }
 
                     displayRoute(routeName, fare)
                 }
@@ -116,7 +160,7 @@ class ChangeRoutePricesOrNameActivity : AppCompatActivity() {
         }
 
         deleteImage.setOnClickListener {
-            val confirmDeleteFragment = ConfirmDeleteRouteFragment()
+            val confirmDeleteFragment = FragmentConfirmDeleteRoute()
             confirmDeleteFragment.setOnDeleteConfirmedListener {
                 val userId = auth.currentUser?.uid ?: return@setOnDeleteConfirmedListener
                 val routeRef = database.getReference("Routes").child(userId).child(routeName)
@@ -167,38 +211,4 @@ class ChangeRoutePricesOrNameActivity : AppCompatActivity() {
         routeListContainer.addView(routeView)
     }
 
-    private fun searchRoute(searchText: String) {
-        val userId = auth.currentUser?.uid ?: return
-        val routesRef = database.getReference("Routes").child(userId)
-
-        routesRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                routeListContainer.removeAllViews()
-                var matchFound = false
-
-                for (routeSnapshot in dataSnapshot.children) {
-                    val routeName = routeSnapshot.child("name").getValue(String::class.java) ?: continue
-                    val fare = routeSnapshot.child("fare").getValue(Long::class.java)?.toString() ?: continue
-
-                    if (routeName.contains(searchText, ignoreCase = true)) {
-                        displayRoute(routeName, fare)
-                        matchFound = true
-                    }
-                }
-
-                if (!matchFound) {
-                    Toast.makeText(this@ChangeRoutePricesOrNameActivity,
-                        "No routes found matching '$searchText'",
-                        Toast.LENGTH_SHORT).show()
-                    fetchRoutes()
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@ChangeRoutePricesOrNameActivity,
-                    "Search failed: ${databaseError.message}",
-                    Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 }

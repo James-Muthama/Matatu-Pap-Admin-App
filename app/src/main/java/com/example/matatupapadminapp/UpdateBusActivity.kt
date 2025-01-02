@@ -30,8 +30,10 @@ class UpdateBusActivity : AppCompatActivity() {
     private lateinit var busPaymentMethodEditText: EditText
     private lateinit var updateBusButton: Button
     private lateinit var backIcon: ImageView
+
     // UI component for selecting a route
     private lateinit var routeSpinner: Spinner
+
     // List to hold the names of routes fetched from Firebase
     private var routeNames = mutableListOf<String>()
 
@@ -52,10 +54,10 @@ class UpdateBusActivity : AppCompatActivity() {
         // Get references to the views
         backIcon = findViewById(R.id.back_icon)
         busNumberPlateEditText = findViewById(R.id.bus_number_plate)
-        routeSpinner = findViewById(R.id.bus_route_spinner)
+        routeSpinner = findViewById(R.id.action_spinner)
         busCodeEditText = findViewById(R.id.bus_code)
         busPaymentMethodEditText = findViewById(R.id.bus_payment_method)
-        updateBusButton = findViewById(R.id.add_bus_btn)
+        updateBusButton = findViewById(R.id.save_payment_btn)
 
         backIcon.setOnClickListener {
             finish()
