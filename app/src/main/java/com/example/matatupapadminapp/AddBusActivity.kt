@@ -26,10 +26,13 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var busDatabase: DatabaseReference
     private lateinit var routeDatabase: DatabaseReference
-    // UI component for selecting a route
+    private lateinit var paymentDatabase: DatabaseReference
+    // UI components for selecting routes and payments
     private lateinit var routeSpinner: Spinner
-    // List to hold the names of routes fetched from Firebase
+    private lateinit var paymentSpinner: Spinner
+    // Lists to hold the names of routes and payments fetched from Firebase
     private var routeNames = mutableListOf<String>()
+    private var paymentNames = mutableListOf<String>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +46,7 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         auth = FirebaseAuth.getInstance()
         routeDatabase = FirebaseDatabase.getInstance().getReference("Routes")
         busDatabase = FirebaseDatabase.getInstance().getReference("Buses")
+        paymentDatabase = FirebaseDatabase.getInstance().getReference("Payments")
 
         // Initialize UI components from the layout
         val homeIcon = findViewById<CardView>(R.id.home_icon_card)
@@ -51,27 +55,29 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val receiptsIcon = findViewById<CardView>(R.id.receipts_icon_card)
         val busNumberPlate = findViewById<EditText>(R.id.bus_number_plate)
         routeSpinner = findViewById(R.id.action_spinner)
+        paymentSpinner = findViewById(R.id.action_spinner_2)
         val busCode = findViewById<EditText>(R.id.bus_code)
-        val busPaymentMethod = findViewById<EditText>(R.id.bus_payment_method)
         val addBusBtn = findViewById<Button>(R.id.save_payment_btn)
 
-        // Fetch routes from Firebase to populate the spinner
+        // Fetch routes from Firebase to populate the first spinner
         fetchRoutesFromFirebase()
+        // Fetch payments from Firebase to populate the second spinner
+        fetchPaymentsFromFirebase()
 
         // Handle click for the "Add Bus" button
         addBusBtn.setOnClickListener {
             // Remove spaces from number plate
             val numberPlate = busNumberPlate.text.toString().replace("\\s".toRegex(), "")
             val selectedRoute = routeSpinner.selectedItem.toString()
+            val selectedPayment = paymentSpinner.selectedItem.toString()
             val code = busCode.text.toString()
-            val paymentMethod = busPaymentMethod.text.toString()
 
             // Validate user input before proceeding
-            if (numberPlate.isNotEmpty() && selectedRoute != "Select a route" && code.isNotEmpty() && paymentMethod.isNotEmpty()) {
-                findUserId(numberPlate, selectedRoute, code, paymentMethod)
+            if (numberPlate.isNotEmpty() && selectedRoute != "Select a route" && selectedPayment != "Select a payment" && code.isNotEmpty()) {
+                findUserId(numberPlate, selectedRoute, code, selectedPayment)
             } else {
-                // Show a warning if the route is not selected or any field is empty
-                Toast.makeText(this, "Please select a route and fill in all fields", Toast.LENGTH_SHORT).show()
+                // Show a warning if the route or payment is not selected or any field is empty
+                Toast.makeText(this, "Please select a route and payment method and fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -95,8 +101,9 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             startActivity(intent)
         }
 
-        // Set up spinner to listen for item selection
+        // Set up spinners to listen for item selection
         routeSpinner.onItemSelectedListener = this
+        paymentSpinner.onItemSelectedListener = this
     }
 
     /**
@@ -107,21 +114,16 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (userId != null) {
             routeDatabase.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    // Clear the existing list to avoid duplicates
                     routeNames.clear()
-                    // Add default item
                     routeNames.add(0, "Select a route")
-                    // Iterate through all child nodes under the user ID
                     dataSnapshot.children.forEach { routeSnapshot ->
                         val name = routeSnapshot.child("name").getValue(String::class.java)
-                        name?.let { routeNames.add(it) } // Add the route name if it exists
+                        name?.let { routeNames.add(it) }
                     }
-                    // After fetching all routes, set up the spinner
-                    setupSpinner()
+                    setupSpinner(routeSpinner, routeNames)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    // Display an error message if the fetch fails
                     Toast.makeText(this@AddBusActivity, "Failed to load routes", Toast.LENGTH_SHORT).show()
                 }
             })
@@ -129,12 +131,35 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     /**
-     * Set up the spinner with the list of route names, including the default item.
+     * Fetch payment method names from Firebase and populate the spinner, including a default item.
      */
-    private fun setupSpinner() {
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, routeNames)
+    private fun fetchPaymentsFromFirebase() {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            paymentDatabase.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    paymentNames.clear()
+                    paymentNames.add(0, "Select a payment")
+                    dataSnapshot.children.forEach { paymentSnapshot ->
+                        paymentNames.add(paymentSnapshot.key ?: "Unknown Payment")
+                    }
+                    setupSpinner(paymentSpinner, paymentNames)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(this@AddBusActivity, "Failed to load payments", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    /**
+     * Set up the spinner with the list of items, including the default item.
+     */
+    private fun setupSpinner(spinner: Spinner, items: List<String>) {
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        routeSpinner.adapter = adapter
+        spinner.adapter = adapter
     }
 
     /**
@@ -150,12 +175,13 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     /**
-     * Add bus data to Firebase under the user's ID.
+     * Add bus data to Firebase under the user's ID with the bus code as the key.
      */
     private fun addBusInfo(userId: String, numberPlate: String, routeName: String, code: String, paymentMethod: String) {
-        val userBusRef = busDatabase.child(userId).child(numberPlate)
+        // Use the bus code as the child key
+        val userBusRef = busDatabase.child(userId).child(code)
         val busData = mapOf(
-            "bus code" to code,
+            "number plate" to numberPlate,
             "payment method" to paymentMethod,
             "route name" to routeName
         )
@@ -174,19 +200,18 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        // You can provide your implementation here
         if (parent.id == R.id.action_spinner) {
-            // Check if the selection is not the default item
             if (position > 0) {
-                // Handle the selection of a real route
-                val selectedRoute = parent.getItemAtPosition(position).toString()
-                // You might want to do something with the selected route here
+                // Handle route selection if needed
+            }
+        } else if (parent.id == R.id.action_spinner_2) {
+            if (position > 0) {
+                // Handle payment method selection if needed
             }
         }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         // This method is called when nothing is selected in the spinner
-        // You can leave it empty or add some logic if necessary
     }
 }

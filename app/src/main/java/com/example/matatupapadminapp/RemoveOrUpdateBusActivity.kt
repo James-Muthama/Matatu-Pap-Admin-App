@@ -94,11 +94,12 @@ class RemoveOrUpdateBusActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 busListContainer.removeAllViews()
                 for (busSnapshot in dataSnapshot.children) {
-                    val busNumberPlate = busSnapshot.key ?: continue
+                    val busCode = busSnapshot.key ?: continue
                     val busData = busSnapshot.value as? Map<*, *> ?: continue
+                    val numberPlate = busData["number plate"] as? String ?: "Unknown"
                     val routeName = busData["route name"] as? String ?: "Unknown"
 
-                    displayBus(busNumberPlate, routeName)
+                    displayBus(busCode, numberPlate, routeName)
                 }
             }
 
@@ -111,15 +112,18 @@ class RemoveOrUpdateBusActivity : AppCompatActivity() {
     private fun searchBus(numberPlate: String) {
         val userId = auth.currentUser?.uid ?: return
 
-        val busRef = database.getReference("Buses").child(userId).child(numberPlate)
-        busRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        val busRef = database.getReference("Buses").child(userId)
+        busRef.orderByChild("number plate").equalTo(numberPlate).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 busListContainer.removeAllViews()
 
                 if (dataSnapshot.exists()) {
-                    val busData = dataSnapshot.value as? Map<*, *> ?: return
-                    val routeName = busData["route name"] as? String ?: "Unknown"
-                    displayBus(numberPlate, routeName)
+                    for (busSnapshot in dataSnapshot.children) {
+                        val busCode = busSnapshot.key ?: continue
+                        val busData = busSnapshot.value as? Map<*, *> ?: continue
+                        val routeName = busData["route name"] as? String ?: "Unknown"
+                        displayBus(busCode, numberPlate, routeName)
+                    }
                 } else {
                     Toast.makeText(this@RemoveOrUpdateBusActivity, "No Bus Matches the Number Plate", Toast.LENGTH_SHORT).show()
                     fetchBuses()
@@ -132,7 +136,7 @@ class RemoveOrUpdateBusActivity : AppCompatActivity() {
         })
     }
 
-    private fun displayBus(numberPlate: String, routeName: String) {
+    private fun displayBus(busCode: String, numberPlate: String, routeName: String) {
         val inflater = LayoutInflater.from(this)
         val busView: View = inflater.inflate(R.layout.bus_item, busListContainer, false)
 
@@ -145,17 +149,18 @@ class RemoveOrUpdateBusActivity : AppCompatActivity() {
         val deleteImage = busView.findViewById<ImageView>(R.id.delete_icon)  // Changed ID to match XML
 
         // Update Button functionality
+        // Inside RemoveOrUpdateBusActivity, in the update button click listener:
         updateButton.setOnClickListener {
             val intent = Intent(this, UpdateBusActivity::class.java)
-            intent.putExtra("numberPlate", numberPlate)
-            intent.putExtra("routeName", routeName)
+            intent.putExtra("busCode", busCode) // This should be the bus code from Firebase
+            intent.putExtra("numberPlate", numberPlate) // This should be the number plate from the data
             startActivity(intent)
         }
 
         // Delete functionality
         deleteImage.setOnClickListener {
             val userId = auth.currentUser?.uid ?: return@setOnClickListener
-            val busRef = database.getReference("Buses").child(userId).child(numberPlate)
+            val busRef = database.getReference("Buses").child(userId).child(busCode)
 
             busRef.removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {

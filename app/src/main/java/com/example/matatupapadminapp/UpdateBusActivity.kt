@@ -20,10 +20,9 @@ import com.google.firebase.database.ValueEventListener
 class UpdateBusActivity : AppCompatActivity() {
     // Firebase authentication and database references
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
     private lateinit var busDatabase: DatabaseReference
     private lateinit var routeDatabase: DatabaseReference
-
+    private lateinit var paymentDatabase: DatabaseReference
 
     private lateinit var busNumberPlateEditText: EditText
     private lateinit var busCodeEditText: EditText
@@ -31,54 +30,58 @@ class UpdateBusActivity : AppCompatActivity() {
     private lateinit var updateBusButton: Button
     private lateinit var backIcon: ImageView
 
-    // UI component for selecting a route
+    // UI component for selecting a route and payment method
     private lateinit var routeSpinner: Spinner
+    private lateinit var paymentSpinner: Spinner
 
-    // List to hold the names of routes fetched from Firebase
+    // Lists to hold the names of routes and payments fetched from Firebase
     private var routeNames = mutableListOf<String>()
-
+    private var paymentNames = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Enable edge-to-edge display for better UI
         enableEdgeToEdge()
-        // Set the layout for this activity
         setContentView(R.layout.update_bus_page)
 
         // Initialize Firebase Authentication and Realtime Database
         auth = FirebaseAuth.getInstance()
         busDatabase = FirebaseDatabase.getInstance().getReference("Buses")
         routeDatabase = FirebaseDatabase.getInstance().getReference("Routes")
-
+        paymentDatabase = FirebaseDatabase.getInstance().getReference("Payments")
 
         // Get references to the views
         backIcon = findViewById(R.id.back_icon)
         busNumberPlateEditText = findViewById(R.id.bus_number_plate)
         routeSpinner = findViewById(R.id.action_spinner)
         busCodeEditText = findViewById(R.id.bus_code)
-        busPaymentMethodEditText = findViewById(R.id.bus_payment_method)
+        busPaymentMethodEditText = findViewById(R.id.partyb)
         updateBusButton = findViewById(R.id.save_payment_btn)
+        paymentSpinner = findViewById(R.id.action_spinner_2) // Assuming there's another spinner for payments
 
-        backIcon.setOnClickListener {
-            finish()
-        }
+        backIcon.setOnClickListener { finish() }
 
-
-        // Get the number plate from the intent
+        // Get the bus code from the intent
+        val busCode = intent.getStringExtra("busCode") ?: ""
         val busNumberPlate = intent.getStringExtra("numberPlate") ?: ""
-        if (busNumberPlate.isEmpty()) {
-            Toast.makeText(this, "No bus number plate provided", Toast.LENGTH_SHORT).show()
+
+        if (busCode.isEmpty()) {
+            Toast.makeText(this, "No bus code provided", Toast.LENGTH_SHORT).show()
             finish()
             return
-        } else{
+        } else {
             // Set the number plate in the EditText
             val formattedNumberPlate = busNumberPlate.replace("(?<=\\G.{3})".toRegex(), " ")
             busNumberPlateEditText.setText(formattedNumberPlate)
         }
 
+        // Fetch the bus data from the database with the bus code
+        fetchBusData(busCode)
 
-        // Fetch the bus data from the database
-        fetchBusData(busNumberPlate)
+        // Fetch routes from Firebase to populate the route spinner
+        fetchRoutesFromFirebase()
+
+        // Fetch payments from Firebase to populate the payment spinner
+        fetchPaymentsFromFirebase()
 
         // Set an onClickListener to show a toast message
         busNumberPlateEditText.setOnClickListener {
@@ -87,49 +90,29 @@ class UpdateBusActivity : AppCompatActivity() {
 
         // Handle the update button click
         updateBusButton.setOnClickListener {
-            updateBusData(busNumberPlate)
+            updateBusData(busCode)
         }
     }
 
-    private fun fetchBusData(busNumberPlate: String) {
+    private fun fetchBusData(busCode: String) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
-            val busRef = busDatabase.child(userId).child(busNumberPlate)
+            val busRef = busDatabase.child(userId).child(busCode)
             busRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         // Fill the fields with the retrieved data
                         val routeName = snapshot.child("route name").getValue(String::class.java)
-                        val code = snapshot.child("bus code").getValue(String::class.java)
+                        val numberPlate = snapshot.child("number plate").getValue(String::class.java)
                         val paymentMethod = snapshot.child("payment method").getValue(String::class.java)
 
-                        routeDatabase.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                // Clear the existing list to avoid duplicates
-                                routeNames.clear()
-                                // Add default item
-                                if (routeName != null) {
-                                    routeNames.add(0, routeName)
-                                }
-                                // Iterate through all child nodes under the user ID
-                                dataSnapshot.children.forEach { routeSnapshot ->
-                                    val name = routeSnapshot.child("name").getValue(String::class.java)
-                                    name?.let { routeNames.add(it) } // Add the route name if it exists
-                                }
-                                // After fetching all routes, set up the spinner
-                                setupSpinner()
-                            }
-
-                            override fun onCancelled(databaseError: DatabaseError) {
-                                // Display an error message if the fetch fails
-                                Toast.makeText(this@UpdateBusActivity, "Failed to load routes", Toast.LENGTH_SHORT).show()
-                            }
-                        })
-
-                        // Populate the fields
+                        // Populate the spinners
                         routeSpinner.setSelection(getSpinnerIndex(routeSpinner, routeName ?: ""))
-                        busCodeEditText.setText(code)
-                        busPaymentMethodEditText.setText(paymentMethod)
+                        paymentSpinner.setSelection(getSpinnerIndex(paymentSpinner, paymentMethod ?: ""))
+
+                        // Set text for other fields
+                        busNumberPlateEditText.setText(numberPlate)
+                        busCodeEditText.setText(busCode)
                     } else {
                         Toast.makeText(this@UpdateBusActivity, "Bus not found", Toast.LENGTH_SHORT).show()
                         finish()
@@ -147,24 +130,70 @@ class UpdateBusActivity : AppCompatActivity() {
     }
 
     /**
-     * Set up the spinner with the list of route names, including the default item.
+     * Fetch route names from Firebase and populate the spinner, including a default item.
      */
-    private fun setupSpinner() {
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, routeNames)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        routeSpinner.adapter = adapter
-    }
-
-    private fun updateBusData(busNumberPlate: String) {
+    private fun fetchRoutesFromFirebase() {
         val userId = auth.currentUser?.uid
         if (userId != null) {
-            val busRef = busDatabase.child(userId).child(busNumberPlate)
+            routeDatabase.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    routeNames.clear()
+                    routeNames.add(0, "Select a route")
+                    dataSnapshot.children.forEach { routeSnapshot ->
+                        val name = routeSnapshot.child("name").getValue(String::class.java)
+                        name?.let { routeNames.add(it) }
+                    }
+                    setupSpinner(routeSpinner, routeNames)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(this@UpdateBusActivity, "Failed to load routes", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    /**
+     * Fetch payment method names from Firebase and populate the spinner, including a default item.
+     */
+    private fun fetchPaymentsFromFirebase() {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            paymentDatabase.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    paymentNames.clear()
+                    paymentNames.add(0, "Select a payment")
+                    dataSnapshot.children.forEach { paymentSnapshot ->
+                        paymentNames.add(paymentSnapshot.key ?: "Unknown Payment")
+                    }
+                    setupSpinner(paymentSpinner, paymentNames)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(this@UpdateBusActivity, "Failed to load payments", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    /**
+     * Set up the spinner with the list of items, including the default item.
+     */
+    private fun setupSpinner(spinner: Spinner, items: List<String>) {
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+    }
+
+    private fun updateBusData(busCode: String) {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val busRef = busDatabase.child(userId).child(busCode)
 
             // Prepare the updated data
             val updatedData = mapOf(
                 "route name" to routeSpinner.selectedItem.toString(),
-                "bus code" to busCodeEditText.text.toString(),
-                "payment method" to busPaymentMethodEditText.text.toString()
+                "payment method" to paymentSpinner.selectedItem.toString()
             )
 
             // Update the database

@@ -35,7 +35,7 @@ class NameRouteActivity : ComponentActivity() {
         // Initialize UI components for input
         val routeStartEditText = findViewById<EditText>(R.id.bus_number_plate)
         val routeEndEditText = findViewById<EditText>(R.id.bus_code)
-        val fareEditText = findViewById<EditText>(R.id.bus_payment_method)
+        val fareEditText = findViewById<EditText>(R.id.partyb)
         val addRouteButton = findViewById<Button>(R.id.save_payment_btn)
 
         // Set click listener for adding route to Firebase
