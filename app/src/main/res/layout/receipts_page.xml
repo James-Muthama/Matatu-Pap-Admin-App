@@ -117,7 +117,7 @@
                 android:showDividers="middle|beginning|end">
 
                 <TextView
-                    android:id="@+id/bus_plate_text"
+                    android:id="@+id/transaction_id_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -129,7 +129,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/route_start_text"
+                    android:id="@+id/payment_method_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -141,7 +141,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/route_start_text"
+                    android:id="@+id/bus_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -153,7 +153,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/route_start_text"
+                    android:id="@+id/amount_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
