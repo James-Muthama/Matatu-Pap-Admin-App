@@ -136,4 +136,11 @@
     <string name="buy_goods_number_instructions">eg. 0712345678</string>
     <string name="add_payment_btn_txt">ADD PAYMENT</string>
 
+    <string name="receipts_text">M-Pesa Statements</string>
+    <string name="search_payments_text">Search Payments</string>
+    <string name="transaction_id_text">Transaction Id</string>
+    <string name="payment_method_text">Payment Type</string>
+    <string name="bus_code_text">Bus Code</string>
+    <string name="amount_text">Amount</string>
+
 </resources>
