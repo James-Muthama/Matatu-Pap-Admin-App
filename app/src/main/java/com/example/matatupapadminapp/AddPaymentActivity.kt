@@ -105,7 +105,7 @@ class AddPaymentActivity : AppCompatActivity() {
         val userPaymentRef = paymentDatabase.child(userId).child(paymentMethodName)
         val paymentData = mapOf(
             "mpesa option" to mpesaOption,
-            "partyB number" to partyBNumber
+            "short code" to partyBNumber
         )
 
         userPaymentRef.setValue(paymentData)
