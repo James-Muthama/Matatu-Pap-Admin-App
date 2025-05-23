@@ -31,7 +31,6 @@
 
 ### Configure Google Maps API
 - Add your Google Maps API key to the `google_maps_api.xml` file (typically in `app/src/main/res/values/`):
-  ```xml
 - Replace YOUR_API_KEY with your actual Google Maps API key.
 
 ### Build and Run
