@@ -24,20 +24,20 @@
    git clone https://github.com/James-Muthama/Matatu-Pap-Admin-App.git
 
 2. **Installation**:
-### Open in Android Studio
+#### Open in Android Studio
 - Launch Android Studio.
 - Select `File` > `Open` and navigate to the cloned `Matatu-Pap-Admin-App` folder.
 - Let Android Studio sync the project with Gradle.
 
-### Configure Google Maps API
+#### Configure Google Maps API
 - Add your Google Maps API key to the `google_maps_api.xml` file (typically in `app/src/main/res/values/`):
 - Replace YOUR_API_KEY with your actual Google Maps API key.
 
-### Build and Run
+#### Build and Run
 - Connect an Android device or use an emulator.
 - Click Run in Android Studio to build and deploy the app.
 
-### Usage
+## Usage
 1. **Clone the Repository**:
 - Navigate to the "Add Matatu" section in the app.
 - Enter details such as matatu name, registration number, and other relevant information.
@@ -50,7 +50,7 @@
 3. **Connect Matatu to Route:**:
 - GitHub Repository: Matatu Pap Admin App
 
-### Instructions for Use
+## Instructions for Use
 1. Copy the above Markdown content.
 2. Go to your GitHub repository: [https://github.com/James-Muthama/Matatu-Pap-Admin-App](https://github.com/James-Muthama/Matatu-Pap-Admin-App).
 3. Click on `README.md` (or create it if it doesn’t exist by clicking `Add file` > `Create new file` and naming it `README.md`).
