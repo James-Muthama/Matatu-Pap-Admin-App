@@ -1,7 +1,5 @@
 # Matatu Pap Admin App
 
-![Matatu Pap Admin App](https://via.placeholder.com/150) <!-- Replace with actual app logo or screenshot if available -->
-
 **Matatu Pap Admin App** is a mobile application designed to streamline the management of *matatus* (public transport buses in Kenya). The app allows administrators to track matatus, add buses, define routes using Google Maps, and connect buses to specific routes. It simplifies route creation by enabling users to add stages (stops) along a route, leveraging Google Maps for ease of use.
 
 ## Features
@@ -64,6 +62,4 @@
 - **Placeholder Image**: The `![Matatu Pap Admin App](https://via.placeholder.com/150)` is a placeholder. Replace it with a URL to an actual app logo or screenshot if available (e.g., upload an image to the repository and link it).
 - **License**: The README assumes an MIT License. If you’re using a different license, update the `License` section and ensure a `LICENSE` file exists in the repository.
 - **Firebase**: The setup mentions Firebase as optional since many mobile apps use it. If your app doesn’t use Firebase, you can remove that part.
-- **Contact Info**: Add your email or other contact details if desired.
 
-If you need help adding a specific section, tweaking the content, or uploading an image to the repository, let me know!
