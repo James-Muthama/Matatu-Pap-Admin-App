@@ -25,66 +25,33 @@
    ```bash
    git clone https://github.com/James-Muthama/Matatu-Pap-Admin-App.git
 
-Open in Android Studio:
-Launch Android Studio.
+2. **Installation**:
+### Open in Android Studio
+- Launch Android Studio.
+- Select `File` > `Open` and navigate to the cloned `Matatu-Pap-Admin-App` folder.
+- Let Android Studio sync the project with Gradle.
 
-Select File > Open and navigate to the cloned Matatu-Pap-Admin-App folder.
+### Configure Google Maps API
+- Add your Google Maps API key to the `google_maps_api.xml` file (typically in `app/src/main/res/values/`):
+  ```xml
+- Replace YOUR_API_KEY with your actual Google Maps API key.
 
-Let Android Studio sync the project with Gradle.
+### Build and Run
+- Connect an Android device or use an emulator.
+- Click Run in Android Studio to build and deploy the app.
 
-Configure Google Maps API:
-Add your Google Maps API key to the google_maps_api.xml file (typically in app/src/main/res/values/):
-xml
+### Usage
+1. **Clone the Repository**:
+- Navigate to the "Add Matatu" section in the app.
+- Enter details such as matatu name, registration number, and other relevant information.
 
-<string name="google_maps_key">YOUR_API_KEY</string>
+2. **Create a Route:**:
+- Go to the "Add Route" section.
+- Use the Google Maps interface to select stages (stops) along the route.
+- Save the route to store it in the app.
 
-Replace YOUR_API_KEY with your actual Google Maps API key.
-
-Build and Run:
-Connect an Android device or use an emulator.
-
-Click Run in Android Studio to build and deploy the app.
-
-Usage
-Add a Matatu:
-Navigate to the "Add Matatu" section in the app.
-
-Enter details such as matatu name, registration number, and other relevant information.
-
-Create a Route:
-Go to the "Add Route" section.
-
-Use the Google Maps interface to select stages (stops) along the route.
-
-Save the route to store it in the app.
-
-Connect Matatu to Route:
-Select a matatu and assign it to a specific route for tracking and management.
-
-Repository
-GitHub Repository: Matatu Pap Admin App
-
-Contributing
-Contributions are welcome! To contribute:
-Fork the repository.
-
-Create a new branch (git checkout -b feature/your-feature).
-
-Make your changes and commit (git commit -m "Add your feature").
-
-Push to the branch (git push origin feature/your-feature).
-
-Create a pull request on GitHub.
-
-License
-This project is licensed under the MIT License (LICENSE). See the LICENSE file for details.
-Contact
-For questions or support, contact the developer:
-GitHub: James-Muthama
-
-Email: [Your email address, if you wish to include it]
-
-
+3. **Connect Matatu to Route:**:
+- GitHub Repository: Matatu Pap Admin App
 
 ### Instructions for Use
 1. Copy the above Markdown content.
