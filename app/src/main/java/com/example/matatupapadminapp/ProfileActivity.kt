@@ -68,7 +68,6 @@ class ProfileActivity : AppCompatActivity() {
         val logoutIcon = findViewById<ImageView>(R.id.logout_icon)
         val routesCountTextView = findViewById<TextView>(R.id.routes_count)
         val busesCountTextView = findViewById<TextView>(R.id.buses_count)
-        val addPaymentBtn = findViewById<Button>(R.id.add_payment_btn)
         val editAccountInfo = findViewById<Button>(R.id.edit_info_btn)
 
         // Fetch routes count for specific user
@@ -95,11 +94,6 @@ class ProfileActivity : AppCompatActivity() {
             }
         })
 
-        // Set onClickListeners for each card to navigate to the corresponding activities
-        addPaymentBtn.setOnClickListener {
-            val intent = Intent(this, AddPaymentActivity::class.java)
-            startActivity(intent)
-        }
 
         // editAccountInfo.setOnClickListener {
             //val intent = Intent(this, EditAccountInfoActivity::class.java)

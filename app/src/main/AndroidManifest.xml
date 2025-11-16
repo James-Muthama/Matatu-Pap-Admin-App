@@ -41,6 +41,16 @@
         <activity android:name=".UpdateBusActivity" />
         <activity android:name=".UpdateRouteActivity" />
         <activity android:name=".AddPaymentActivity" />
+        <activity android:name=".AddBusTripActivity" />
+        <activity android:name=".AddBusExpenseActivity" />
+        <activity android:name=".CompareBusActivity" />
+        <activity android:name=".CompareRouteActivity" />
+        <activity android:name=".Compare2RoutesActivity" />
+        <activity android:name=".Compare2BussesActivity" />
+        <activity android:name=".BusPerformanceActivity" />
+        <activity android:name=".DisplayBusPerformanceActivity" />
+        <activity android:name=".RoutePerformanceActivity" />
+        <activity android:name=".DisplayRoutePerformanceActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

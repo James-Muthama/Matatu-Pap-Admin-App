@@ -1,6 +1,6 @@
 <resources>
     //API_KEY
-    <string name="google_maps_api_key">AIzaSyB6c8CH2zz0Z27o_MWBqgfgtXXF-rKOZdg</string>
+    <string name="google_maps_api_key">AIzaSyCZZMrc0UKTtKbIBxVAKQSk_vjF00MioRQ</string>
 
     //Other text used in the app
     <string name="home_icon_text">Home Icon</string>
@@ -15,7 +15,7 @@
     <string name="app_name_text">Matatu-Pap \n Admin App</string>
     <string name="greetings_text">Greetings, User</string>
 
-    <string name="add_bus_text">Add Bus into Sacco</string>
+    <string name="add_bus_text">Add Bus into Fleet</string>
     <string name="remove_bus_text">Remove Or Update Bus</string>
     <string name="add_route_text">Add Route</string>
     <string name="change_route_prices_text">Change Route Prices or Name</string>
@@ -31,17 +31,17 @@
     <string name="changed_price_per_stage_text">Changed Price Per Stage:</string>
 
 
-    <string name="sacco_sign_up_text">Sacco Sign Up</string>
-    <string name="sacco_log_in_text">Sacco Log In</string>
-    <string name="sacco_name_text">Sacco Name:</string>
-    <string name="sacco_email_text">Sacco Email:</string>
+    <string name="sacco_sign_up_text">Fleet Sign Up</string>
+    <string name="sacco_log_in_text">Fleet Log In</string>
+    <string name="sacco_name_text">Fleet Name:</string>
+    <string name="sacco_email_text">Fleet Email:</string>
     <string name="password_text">Password:</string>
     <string name="sacco_sign_up_txt">Sign Up:</string>
     <string name="sacco_signup_txt">Don\'t have an Account?  Sign Up</string>
     <string name="sacco_login_txt">Have an Account?  Log In</string>
 
     <string name="search_bus_text">Search Bus Number Plate</string>
-    <string name="bus_plate_text">Bus Plate</string>
+    <string name="bus_plate_text">Tap to Choose Bus Plate:</string>
     <string name="route_name_text">Route Name</string>
 
     <string name="customer_info_text">Customer Info:</string>
@@ -114,9 +114,9 @@
     <string name="delete_route_warning_text">DELETING THIS ROUTE WILL AFFECT ALL BUSES WITH THIS ROUTE.</string>
     <string name="cancel_delete_route_text">Back</string>
 
-    <string name="sacco_name_instructions">add sacco name</string>
+    <string name="sacco_name_instructions">add fleet name</string>
     <string name="sacco_pass_instructions">at-least 6 letters long</string>
-    <string name="sacco_email_instructions">eg: sacco@email.com</string>
+    <string name="sacco_email_instructions">eg: fleet@email.com</string>
 
     <string name="continue_delete_route_text">DELETE</string>
 
@@ -136,11 +136,86 @@
     <string name="buy_goods_number_instructions">eg. 0712345678</string>
     <string name="add_payment_btn_txt">ADD PAYMENT</string>
 
-    <string name="receipts_text">M-Pesa Statements</string>
+    <string name="performance_text">Performance Tracker</string>
     <string name="search_payments_text">Search Payments</string>
     <string name="transaction_id_text">Transaction Id</string>
     <string name="payment_method_text">Payment Type</string>
     <string name="bus_code_text">Bus Code</string>
     <string name="amount_text">Amount</string>
 
+    <string name="bus_performance_text">Bus Performance</string>
+    <string name="route_performance_text">Route Performance</string>
+    <string name="fleet_performance_text">Fleet Performance</string>
+
+    <string name="bus_trips_text">Add Bus Trips</string>
+    <string name="cost_trips_text">Add Bus Expenses</string>
+    <string name="route_compare_text">Compare Buses</string>
+    <string name="bus_compare_text">Compare Routes</string>
+
+    <string name="add_bus_trip_text">Add Bus Trip</string>
+    <string name="add_bus_trip_number_plate_text">Choose Bus Number Plate:</string>
+    <string name="add_trip_amount_text">Enter No of Trips:</string>
+    <string name="add_bus_trip_txt">Add Trips</string>
+    <string name="add_trip_example_txt">e.g 5</string>
+    <string name="add_trip_explanation_txt">Add Daily Number of Trips for each Bus to allow for tracking of fleet performance</string>
+    <string name="add_trip_date_txt">Enter Trip Date:</string>
+    <string name="add_trip_date_example_txt">e.g 23/09/2025</string>
+
+    <string name="add_expense_explanation_txt">Add Monthly Expenses for each Bus to allow for tracking of fleet performance</string>
+    <string name="add_bus_exp_text">Add Bus Expenses</string>
+    <string name="add_exp_date_text">Choose Month:</string>
+    <string name="add_exp_amount_txt">Total Expenses:</string>
+    <string name="add_exp_example_txt">e.g 5000</string>
+    <string name="add_bus_exp_txt">Add Expenses</string>
+
+
+    <string name="compare_busses">Compare Buses</string>
+    <string name="bus_plate_check_text">Check two Buses</string>
+
+    <string name="choose_bus_1_txt">Bus 1</string>
+    <string name="choose_bus_2_txt">Bus 2</string>
+
+    <string name="compare_buses_txt">Compare Buses</string>
+    <string name="compare_routes">Compare Routes</string>
+
+    <string name="route_name_txt">Tap to Choose Route</string>
+
+    <string name="choose_route_1_txt">Route 1</string>
+    <string name="choose_route_2_txt">Route 2</string>
+
+    <string name="compare_routes_txt">Compare Routes</string>
+
+    <string name="choose_time_period_txt">Choose Time Period</string>
+
+    <string name="bus_comp_txt">Busses Comparison</string>
+
+    <string name="stat_1">Total Trips</string>
+    <string name="stat_2">Total Income</string>
+    <string name="stat_3">Total Expenses</string>
+    <string name="stat_4">Net Profit</string>
+    <string name="stat_5">Profit Margin</string>
+    <string name="stat_6">Trips/Day</string>
+    <string name="stat_7">Performance Ratio</string>
+
+    <string name="stat_1_1">Stat 1</string>
+    <string name="stat_2_1">Stat 2</string>
+
+    <string name="routes_comp_txt">Routes Comparison</string>
+
+    <string name="stat_8">Route Revenue</string>
+    <string name="stat_9">Route Expense</string>
+    <string name="stat_10">Profit Margin</string>
+    <string name="stat_11">Trip Volume</string>
+    <string name="stat_12">Revenue per Bus</string>
+
+    <string name="stat1">Total Revenue</string>
+    <string name="stat2">Total Expense</string>
+    <string name="stat3">Profit Margin</string>
+    <string name="stat4">KES 0.0</string>
+    <string name="stat5">0.0%</string>
+    <string name="bus_plate_inst_text">Tap to Choose Bus Plate to Check Performance:</string>
+    <string name="btn_check_stats">Check Bus Performance</string>
+
+    <string name="route_name_inst_text">Tap to Choose Route Name to Check Performance:</string>
+    <string name="btn_check_route_stats">Check Route Performance</string>
 </resources>

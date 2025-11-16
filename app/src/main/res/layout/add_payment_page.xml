@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/rounded_input"
                     android:hint="@string/payment_name_instructions"
                     android:padding="20dp"
                     android:textColor="#000000"
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/rounded_input"
                     android:padding="20dp"
                     tools:ignore="TextFields" />
 
@@ -149,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/rounded_input"
                     android:hint="@string/buy_goods_number_instructions"
                     android:padding="20dp"
                     android:textColor="#000000"

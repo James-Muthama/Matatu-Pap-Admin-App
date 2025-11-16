@@ -179,25 +179,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/numbers_layout">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="30dp"
-            app:cardCornerRadius="15dp">
 
-            <Button
-                android:id="@+id/add_payment_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#959179"
-                android:padding="15dp"
-                android:text="@string/add_payment_txt"
-                android:textAllCaps="false"
-                android:textColor="#000000"
-                android:textSize="25sp" />
-
-        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"

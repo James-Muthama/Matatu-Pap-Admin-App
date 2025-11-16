@@ -55,26 +55,23 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val receiptsIcon = findViewById<CardView>(R.id.receipts_icon_card)
         val busNumberPlate = findViewById<EditText>(R.id.bus_number_plate)
         routeSpinner = findViewById(R.id.action_spinner)
-        paymentSpinner = findViewById(R.id.action_spinner_2)
         val busCode = findViewById<EditText>(R.id.bus_code)
         val addBusBtn = findViewById<Button>(R.id.save_payment_btn)
 
         // Fetch routes from Firebase to populate the first spinner
         fetchRoutesFromFirebase()
-        // Fetch payments from Firebase to populate the second spinner
-        fetchPaymentsFromFirebase()
+
 
         // Handle click for the "Add Bus" button
         addBusBtn.setOnClickListener {
             // Remove spaces from number plate
             val numberPlate = busNumberPlate.text.toString().replace("\\s".toRegex(), "")
             val selectedRoute = routeSpinner.selectedItem.toString()
-            val selectedPayment = paymentSpinner.selectedItem.toString()
             val code = busCode.text.toString()
 
             // Validate user input before proceeding
-            if (numberPlate.isNotEmpty() && selectedRoute != "Select a route" && selectedPayment != "Select a payment" && code.isNotEmpty()) {
-                findUserId(numberPlate, selectedRoute, code, selectedPayment)
+            if (numberPlate.isNotEmpty() && selectedRoute != "Select a route" && code.isNotEmpty()) {
+                findUserId(numberPlate, selectedRoute, code)
             } else {
                 // Show a warning if the route or payment is not selected or any field is empty
                 Toast.makeText(this, "Please select a route and payment method and fill in all fields", Toast.LENGTH_SHORT).show()
@@ -103,7 +100,6 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         // Set up spinners to listen for item selection
         routeSpinner.onItemSelectedListener = this
-        paymentSpinner.onItemSelectedListener = this
     }
 
     /**
@@ -131,29 +127,6 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     /**
-     * Fetch payment method names from Firebase and populate the spinner, including a default item.
-     */
-    private fun fetchPaymentsFromFirebase() {
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            paymentDatabase.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    paymentNames.clear()
-                    paymentNames.add(0, "Select a payment")
-                    dataSnapshot.children.forEach { paymentSnapshot ->
-                        paymentNames.add(paymentSnapshot.key ?: "Unknown Payment")
-                    }
-                    setupSpinner(paymentSpinner, paymentNames)
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Toast.makeText(this@AddBusActivity, "Failed to load payments", Toast.LENGTH_SHORT).show()
-                }
-            })
-        }
-    }
-
-    /**
      * Set up the spinner with the list of items, including the default item.
      */
     private fun setupSpinner(spinner: Spinner, items: List<String>) {
@@ -165,10 +138,10 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     /**
      * Check user authentication and proceed to add bus information if authenticated.
      */
-    private fun findUserId(numberPlate: String, routeName: String, code: String, paymentMethod: String) {
+    private fun findUserId(numberPlate: String, routeName: String, code: String) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
-            addBusInfo(userId, numberPlate, routeName, code, paymentMethod)
+            addBusInfo(userId, numberPlate, routeName, code)
         } else {
             Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show()
         }
@@ -177,12 +150,11 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     /**
      * Add bus data to Firebase under the user's ID with the bus code as the key.
      */
-    private fun addBusInfo(userId: String, numberPlate: String, routeName: String, code: String, paymentMethod: String) {
+    private fun addBusInfo(userId: String, numberPlate: String, routeName: String, code: String) {
         // Use the bus code as the child key
         val userBusRef = busDatabase.child(userId).child(code)
         val busData = mapOf(
             "number plate" to numberPlate,
-            "payment method" to paymentMethod,
             "route name" to routeName
         )
 
@@ -203,10 +175,6 @@ class AddBusActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (parent.id == R.id.action_spinner) {
             if (position > 0) {
                 // Handle route selection if needed
-            }
-        } else if (parent.id == R.id.action_spinner_2) {
-            if (position > 0) {
-                // Handle payment method selection if needed
             }
         }
     }

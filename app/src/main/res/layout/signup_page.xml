@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/rounded_input"
                     android:drawableStart="@drawable/user_icon"
                     android:drawablePadding="15dp"
                     android:hint="@string/sacco_name_instructions"
@@ -116,6 +116,7 @@
                     android:textColorHighlight="#0B0707"
                     android:textColorHint="#000000"
                     tools:ignore="TextFields" />
+
 
                 <TextView
                     android:id="@+id/textView17"
@@ -133,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/rounded_input"
                     android:drawableStart="@drawable/mail_icon"
                     android:drawablePadding="15dp"
                     android:hint="@string/sacco_email_instructions"
@@ -160,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/rounded_input"
                     android:drawableStart="@drawable/password_icon"
                     android:drawableEnd="@drawable/visibility_off_icon"
                     android:drawablePadding="15dp"
@@ -188,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/rounded_input"
                     android:drawableStart="@drawable/password_icon"
                     android:drawableEnd="@drawable/visibility_off_icon"
                     android:drawablePadding="15dp"
