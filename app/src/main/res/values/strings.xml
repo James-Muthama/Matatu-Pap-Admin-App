@@ -216,7 +216,7 @@
     <string name="bus_plate_inst_text">Tap to Choose Bus Plate to Check Performance:</string>
     <string name="btn_check_stats">Check Bus Performance</string>
 
-    <string name="route_name_inst_text">Tbtn_check_statsap to Choose Route Name to Check Performance:</string>
+    <string name="route_name_inst_text">Tap to Choose Route Name to Check Performance:</string>
     <string name="btn_check_route_stats">Check Route Performance</string>
 
     <string name="no_of_routes_txt">Active Routes</string>

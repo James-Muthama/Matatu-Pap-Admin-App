@@ -436,22 +436,48 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            app:cardCornerRadius="25dp">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="25dp">
 
-            <Button
-                android:id="@+id/save_payment_btn"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#959179"
-                android:padding="20dp"
-                android:text="@string/btn_check_stats" />
-        </androidx.cardview.widget.CardView>
+                android:layout_gravity="center"
+                app:cardCornerRadius="25dp"
+                android:layout_marginRight="20dp">
+
+                <Button
+                    android:id="@+id/save_payment_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#959179"
+                    android:padding="20dp"
+                    android:text="@string/btn_check_stats" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="25dp">
+
+                <Button
+                    android:id="@+id/save_payment_btn1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#959179"
+                    android:padding="20dp"
+                    android:text="@string/txt_check_bus_stats" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

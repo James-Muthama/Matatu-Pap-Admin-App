@@ -27,6 +27,7 @@ class BusPerformanceActivity : AppCompatActivity() {
     private lateinit var routeNameInput: EditText
     private lateinit var searchBtn: ImageView
     private lateinit var checkStatsBtn: Button
+    private lateinit var busStatsBtn: Button
 
     // Stats TextViews
     private lateinit var totalRevenueAmnt: TextView
@@ -60,6 +61,8 @@ class BusPerformanceActivity : AppCompatActivity() {
         totalExpenseAmnt = findViewById(R.id.textView9)
         profitMarginText = findViewById(R.id.stage)
         selectedBusText = findViewById(R.id.textView13)
+        busStatsBtn = findViewById(R.id.save_payment_btn1)
+
 
         // Navigation
         receiptsIcon.setOnClickListener {
@@ -76,6 +79,12 @@ class BusPerformanceActivity : AppCompatActivity() {
 
         homeIcon.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        // Navigate to Total Bus Performance Activity
+        busStatsBtn.setOnClickListener {
+            val intent = Intent(this, TotalBusPerformanceActivity::class.java)
+            startActivity(intent)
         }
 
         // Search functionality

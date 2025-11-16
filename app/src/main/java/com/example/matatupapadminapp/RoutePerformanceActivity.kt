@@ -27,6 +27,8 @@ class RoutePerformanceActivity : AppCompatActivity() {
     private lateinit var routeNameInput: EditText
     private lateinit var searchBtn: ImageView
     private lateinit var checkStatsBtn: Button
+    private lateinit var routesStatsBtn: Button
+
 
     // Stats TextViews
     private lateinit var totalRevenueAmnt: TextView
@@ -60,6 +62,8 @@ class RoutePerformanceActivity : AppCompatActivity() {
         totalExpenseAmnt = findViewById(R.id.textView9)
         profitMarginText = findViewById(R.id.stage)
         selectedRouteText = findViewById(R.id.textView13)
+        routesStatsBtn = findViewById(R.id.save_payment_btn1)
+
 
         // Navigation
         receiptsIcon.setOnClickListener {
@@ -76,6 +80,12 @@ class RoutePerformanceActivity : AppCompatActivity() {
 
         homeIcon.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        // Navigate to Total Routes Performance Activity
+        routesStatsBtn.setOnClickListener {
+            val intent = Intent(this, TotalRoutesPerformanceActivity::class.java)
+            startActivity(intent)
         }
 
         // Search functionality
