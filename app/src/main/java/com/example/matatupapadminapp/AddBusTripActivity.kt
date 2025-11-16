@@ -314,7 +314,7 @@ class AddBusTripActivity : AppCompatActivity(), AdapterView.OnItemSelectedListen
                                 "Trip Income Added Successfully!\n$numTrips trips × KSh $farePrice = KSh $income\nSaved for Bus: $busPlate & Route: $routeName",
                                 Toast.LENGTH_LONG
                             ).show()
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, ReceiptsActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {

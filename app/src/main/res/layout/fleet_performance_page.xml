@@ -148,6 +148,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="15dp"
+        android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -306,135 +307,89 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            app:cardBackgroundColor="#959179">
-
-            <ImageView
-                android:id="@+id/search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="15dp"
-                app:srcCompat="@drawable/search_icon" />
-
-            <EditText
-                android:id="@+id/route_name_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#959179"
-                android:hint="@string/search_bus_text"
-                android:inputType="text"
-                android:padding="30dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
-                tools:ignore="TextFields" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+        <LinearLayout
+            android:id="@+id/numbers_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#9D00FF"
-            app:cardCornerRadius="25dp">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#9D00FF"
-                android:dividerPadding="1dp"
-                android:showDividers="middle|beginning|end">
-
-                <TextView
-                    android:id="@+id/bus_plate_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/bus_plate_inst_text"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </TableRow>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/route_list_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    tools:ignore="UselessLeaf">
-
-                </LinearLayout>
-            </ScrollView>
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:id="@+id/performance_icons"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:elevation="15dp"
-            android:gravity="center"
+            android:layout_marginTop="50dp"
             android:orientation="horizontal"
-            android:padding="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/questions"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/maps_card">
+            app:layout_constraintTop_toBottomOf="@+id/greeting_layout">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/start_route_card"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="30dp">
+                android:backgroundTint="#9D00FF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="#9D00FF"
-                    android:gravity="center"
-                    android:padding="5dp">
-
-                    <ImageView
-                        android:id="@+id/route_start_pin1"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/bus_icon"
-                        app:tint="@color/white" />
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/routes_count"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/choose_bus_1_txt"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:padding="5dp"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="TextView"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/route_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:text="@string/no_of_routes_txt"
+                        android:textColor="#FFFFFF"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#9D00FF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/buses_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="TextView"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/buses_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:text="@string/n0_of_buses_txt"
+                        android:textColor="#FFFFFF"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -444,13 +399,30 @@
             app:cardCornerRadius="25dp">
 
             <Button
-                android:id="@+id/save_payment_btn"
+                android:id="@+id/bus_stats_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="#959179"
                 android:padding="20dp"
-                android:text="@string/btn_check_stats" />
+                android:text="@string/txt_check_bus_stats" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="25dp">
+
+            <Button
+                android:id="@+id/routes_stats_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#959179"
+                android:padding="20dp"
+                android:text="@string/txt_check_route_stats" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 

@@ -254,7 +254,7 @@ class AddBusExpenseActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
                                                     "Route: $routeName - KSh $newRouteTotalExpense"
                                         }
                                         Toast.makeText(this@AddBusExpenseActivity, message, Toast.LENGTH_LONG).show()
-                                        val intent = Intent(this@AddBusExpenseActivity, MainActivity::class.java)
+                                        val intent = Intent(this@AddBusExpenseActivity, ReceiptsActivity::class.java)
                                         startActivity(intent)
                                         finish()
                                     } else {

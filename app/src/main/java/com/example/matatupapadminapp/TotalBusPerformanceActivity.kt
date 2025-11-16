@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DisplayRoutePerformanceActivity : AppCompatActivity() {
+class TotalBusPerformanceActivity : AppCompatActivity() {
 
     // Firebase
     private lateinit var auth: FirebaseAuth
@@ -31,15 +31,12 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
     private lateinit var timePeriodSpinner: Spinner
     private lateinit var dateSpinner: Spinner
 
-    // Route Name TextView
-    private lateinit var route1NameTextView: TextView
-
     // Metric TextViews
-    private lateinit var totalRevenueTextView: TextView
+    private lateinit var totalTripsTextView: TextView
+    private lateinit var totalIncomeTextView: TextView
     private lateinit var totalExpensesTextView: TextView
+    private lateinit var netProfitTextView: TextView
     private lateinit var profitMarginTextView: TextView
-    private lateinit var tripVolumeTextView: TextView
-    private lateinit var revenuePerBusTextView: TextView
 
     // Navigation
     private lateinit var backIcon: ImageView
@@ -47,29 +44,20 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
     private lateinit var receiptsIconCard: CardView
     private lateinit var profileIconCard: CardView
 
-    // Route Selection Card
-    private lateinit var route1SelectCard: CardView
-
     // Data variables
-    private var routeName: String? = null
     private var selectedTimePeriod: String = "Day"
     private var selectedDate: String = ""
     private var selectedCalendar = Calendar.getInstance()
+    private var allBusPlates = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.display_route_performance_page)
+        setContentView(R.layout.display_total_bus_fleet_performance_page)
 
         // Initialize Firebase
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
-
-        // Get route name from intent
-        val routeNames = intent.getStringArrayExtra("routeNames")
-        routeName = routeNames?.firstOrNull()
-
-        android.util.Log.d("DisplayRoutePerf", "onCreate - Route name: $routeName")
 
         // Initialize all views
         initializeViews()
@@ -77,16 +65,11 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
         // Setup spinners
         setupTimePeriodSpinner()
 
-        // Display route name
-        route1NameTextView.text = routeName ?: "Select Route"
-
         // Setup navigation
         setupNavigation()
 
-        // Setup route selection card click
-        route1SelectCard.setOnClickListener {
-            finish() // Go back to selection screen
-        }
+        // Fetch all buses first, then calculate metrics
+        fetchAllBuses()
     }
 
     private fun initializeViews() {
@@ -94,26 +77,20 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
         timePeriodSpinner = findViewById(R.id.timePeriodSpinner)
         dateSpinner = findViewById(R.id.dateSpinner)
 
-        // Route Name TextView (bus_1 in the XML)
-        route1NameTextView = findViewById(R.id.bus_1)
-
-        // Metric TextViews (mapped to display_route_performance_page layout)
-        totalRevenueTextView = findViewById(R.id.textView_2)           // Total Revenue
-        totalExpensesTextView = findViewById(R.id.textView_4)          // Total Expenses
-        profitMarginTextView = findViewById(R.id.textView6)            // Profit Margin
-        tripVolumeTextView = findViewById(R.id.textView8_)             // Trip Volume
-        revenuePerBusTextView = findViewById(R.id.textView10)          // Revenue per Bus
+        // Metric TextViews
+        totalTripsTextView = findViewById(R.id.bus2TotalTripsTextView)
+        totalIncomeTextView = findViewById(R.id.bus2TotalIncomeTextView)
+        totalExpensesTextView = findViewById(R.id.bus2TotalExpensesTextView)
+        netProfitTextView = findViewById(R.id.bus2NetProfitTextView)
+        profitMarginTextView = findViewById(R.id.bus2ProfitMarginTextView)
 
         // Navigation
-        backIcon = findViewById(R.id.back_icon)
-        homeIconCard = findViewById(R.id.home_icon_card)
-        receiptsIconCard = findViewById(R.id.receipts_icon_card)
-        profileIconCard = findViewById(R.id.profile_icon_card)
+        backIcon = findViewById(R.id.backIcon)
+        homeIconCard = findViewById(R.id.homeIconCard)
+        receiptsIconCard = findViewById(R.id.receiptsIconCard)
+        profileIconCard = findViewById(R.id.profileIconCard)
 
-        // Route Selection Card
-        route1SelectCard = findViewById(R.id.start_route_card_2)
-
-        android.util.Log.d("DisplayRoutePerf", "Views initialized successfully")
+        android.util.Log.d("TotalBusFleetPerf", "Views initialized successfully")
     }
 
     private fun setupNavigation() {
@@ -143,7 +120,7 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
         timePeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedTimePeriod = timePeriods[position]
-                android.util.Log.d("DisplayRoutePerf", "Time period selected: $selectedTimePeriod")
+                android.util.Log.d("TotalBusFleetPerf", "Time period selected: $selectedTimePeriod")
                 setupDateSpinner(selectedTimePeriod)
             }
 
@@ -171,8 +148,10 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
                 }
 
                 // Trigger initial data fetch
-                android.util.Log.d("DisplayRoutePerf", "Triggering initial data fetch for Day")
-                fetchAndCalculateMetrics()
+                android.util.Log.d("TotalBusFleetPerf", "Triggering initial data fetch for Day")
+                if (allBusPlates.isNotEmpty()) {
+                    fetchAllBusesMetrics()
+                }
             }
             "Month" -> {
                 val calendar = Calendar.getInstance()
@@ -193,8 +172,10 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
                 dateSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         selectedDate = dateOptions[position]
-                        android.util.Log.d("DisplayRoutePerf", "Month selected: $selectedDate")
-                        fetchAndCalculateMetrics()
+                        android.util.Log.d("TotalBusFleetPerf", "Month selected: $selectedDate")
+                        if (allBusPlates.isNotEmpty()) {
+                            fetchAllBusesMetrics()
+                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -216,8 +197,10 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
                 dateSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         selectedDate = dateOptions[position]
-                        android.util.Log.d("DisplayRoutePerf", "Year selected: $selectedDate")
-                        fetchAndCalculateMetrics()
+                        android.util.Log.d("TotalBusFleetPerf", "Year selected: $selectedDate")
+                        if (allBusPlates.isNotEmpty()) {
+                            fetchAllBusesMetrics()
+                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -239,9 +222,11 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 dateSpinner.adapter = adapter
 
-                android.util.Log.d("DisplayRoutePerf", "Date selected: $selectedDate")
+                android.util.Log.d("TotalBusFleetPerf", "Date selected: $selectedDate")
                 // Fetch data for selected date
-                fetchAndCalculateMetrics()
+                if (allBusPlates.isNotEmpty()) {
+                    fetchAllBusesMetrics()
+                }
             },
             selectedCalendar.get(Calendar.YEAR),
             selectedCalendar.get(Calendar.MONTH),
@@ -250,167 +235,181 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun fetchAndCalculateMetrics() {
-        if (routeName == null) {
-            Toast.makeText(this, "Route name not found", Toast.LENGTH_SHORT).show()
-            android.util.Log.e("DisplayRoutePerf", "Route name is null")
-            return
-        }
-
+    private fun fetchAllBuses() {
         val userId = auth.currentUser?.uid
         if (userId == null) {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
-            android.util.Log.e("DisplayRoutePerf", "User ID is null")
             return
         }
 
-        android.util.Log.d("DisplayRoutePerf", "Fetching metrics for route: $routeName, userId: $userId, period: $selectedTimePeriod, date: $selectedDate")
-        fetchRouteMetrics(userId, routeName!!)
-    }
-
-    private fun fetchRouteMetrics(userId: String, routeName: String) {
-        android.util.Log.d("DisplayRoutePerf", "Fetching metrics for route: $routeName")
-
-        val incomeRef = database.getReference("Route_Income").child(userId).child(routeName)
-        val expensesRef = database.getReference("Route_Expenses").child(userId).child(routeName)
         val busesRef = database.getReference("Buses").child(userId)
-
-        // First, fetch buses that belong to this route
         busesRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(busesSnapshot: DataSnapshot) {
-                val busPlatesForRoute = mutableListOf<String>()
+            override fun onDataChange(snapshot: DataSnapshot) {
+                allBusPlates.clear()
 
-                android.util.Log.d("DisplayRoutePerf", "Buses snapshot exists: ${busesSnapshot.exists()}, Children count: ${busesSnapshot.childrenCount}")
+                if (!snapshot.exists()) {
+                    Toast.makeText(
+                        this@TotalBusPerformanceActivity,
+                        "No buses found",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    displayMetrics(FleetBusMetrics(0, 0.0, 0.0, 0.0, 0.0))
+                    return
+                }
 
-                // Structure: Buses/userId/busId/{number_plate, payment_method, route_name}
-                for (busIdSnapshot in busesSnapshot.children) {
-                    val routeNameInBus = busIdSnapshot.child("route name").value as? String
-                    val numberPlate = busIdSnapshot.child("number plate").value as? String
-
-                    if (routeNameInBus == routeName && numberPlate != null) {
-                        busPlatesForRoute.add(numberPlate)
-                        android.util.Log.d("DisplayRoutePerf", "✓ Added bus plate: $numberPlate to route $routeName")
+                // Structure: Buses/userId/busId/{number_plate, ...}
+                for (busSnapshot in snapshot.children) {
+                    val numberPlate = busSnapshot.child("number plate").value as? String
+                    if (numberPlate != null) {
+                        allBusPlates.add(numberPlate)
                     }
                 }
 
-                android.util.Log.d("DisplayRoutePerf", "Found ${busPlatesForRoute.size} buses for route '$routeName': $busPlatesForRoute")
+                android.util.Log.d("TotalBusFleetPerf", "Found ${allBusPlates.size} buses: $allBusPlates")
 
-                // Now fetch income and expenses
-                incomeRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(incomeSnapshot: DataSnapshot) {
-                        android.util.Log.d("DisplayRoutePerf", "Income snapshot exists: ${incomeSnapshot.exists()}, Children: ${incomeSnapshot.childrenCount}")
+                if (allBusPlates.isNotEmpty()) {
+                    fetchAllBusesMetrics()
+                } else {
+                    displayMetrics(FleetBusMetrics(0, 0.0, 0.0, 0.0, 0.0))
+                }
+            }
 
-                        expensesRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(expensesSnapshot: DataSnapshot) {
-                                android.util.Log.d("DisplayRoutePerf", "Expenses snapshot exists: ${expensesSnapshot.exists()}, Children: ${expensesSnapshot.childrenCount}")
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(
+                    this@TotalBusPerformanceActivity,
+                    "Failed to load buses: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
 
-                                val metrics = calculateMetrics(incomeSnapshot, expensesSnapshot, busPlatesForRoute.size)
-                                android.util.Log.d("DisplayRoutePerf", "Calculated metrics - Revenue: ${metrics.revenue}, Expense: ${metrics.expense}, Trips: ${metrics.tripVolume}")
+    private fun fetchAllBusesMetrics() {
+        val userId = auth.currentUser?.uid ?: return
 
-                                displayMetrics(metrics)
-                            }
+        if (allBusPlates.isEmpty()) {
+            displayMetrics(FleetBusMetrics(0, 0.0, 0.0, 0.0, 0.0))
+            return
+        }
 
-                            override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(
-                                    this@DisplayRoutePerformanceActivity,
-                                    "Failed to load expenses for $routeName",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                android.util.Log.e("DisplayRoutePerf", "Error loading expenses: ${error.message}")
-                            }
-                        })
+        android.util.Log.d("TotalBusFleetPerf", "Fetching metrics for ${allBusPlates.size} buses")
+
+        var aggregatedTrips = 0
+        var aggregatedIncome = 0.0
+        var aggregatedExpenses = 0.0
+        var completedBuses = 0
+
+        allBusPlates.forEach { busPlate ->
+            fetchSingleBusMetrics(userId, busPlate) { metrics ->
+                aggregatedTrips += metrics.totalTrips
+                aggregatedIncome += metrics.totalIncome
+                aggregatedExpenses += metrics.totalExpenses
+                completedBuses++
+
+                android.util.Log.d("TotalBusFleetPerf", "Bus '$busPlate' completed. Progress: $completedBuses/${allBusPlates.size}")
+
+                // When all buses are processed
+                if (completedBuses == allBusPlates.size) {
+                    val netProfit = aggregatedIncome - aggregatedExpenses
+                    val profitMargin = if (aggregatedIncome > 0) {
+                        (netProfit / aggregatedIncome) * 100
+                    } else {
+                        0.0
+                    }
+
+                    val finalMetrics = FleetBusMetrics(
+                        totalTrips = aggregatedTrips,
+                        totalIncome = aggregatedIncome,
+                        totalExpenses = aggregatedExpenses,
+                        netProfit = netProfit,
+                        profitMargin = profitMargin
+                    )
+
+                    android.util.Log.d("TotalBusFleetPerf", "All buses processed. Final metrics: $finalMetrics")
+                    displayMetrics(finalMetrics)
+                }
+            }
+        }
+    }
+
+    private fun fetchSingleBusMetrics(
+        userId: String,
+        busPlate: String,
+        onComplete: (BusMetrics) -> Unit
+    ) {
+        val incomeRef = database.getReference("Bus_Income").child(userId).child(busPlate)
+        val expensesRef = database.getReference("Bus_Expenses").child(userId).child(busPlate)
+
+        incomeRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(incomeSnapshot: DataSnapshot) {
+                expensesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(expensesSnapshot: DataSnapshot) {
+                        val metrics = calculateMetrics(incomeSnapshot, expensesSnapshot)
+                        android.util.Log.d("TotalBusFleetPerf", "Bus '$busPlate' metrics - Trips: ${metrics.totalTrips}, Income: ${metrics.totalIncome}, Expense: ${metrics.totalExpenses}")
+                        onComplete(metrics)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(
-                            this@DisplayRoutePerformanceActivity,
-                            "Failed to load income for $routeName",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        android.util.Log.e("DisplayRoutePerf", "Error loading income: ${error.message}")
+                        android.util.Log.e("TotalBusFleetPerf", "Error loading expenses for $busPlate: ${error.message}")
+                        onComplete(BusMetrics(0, 0.0, 0.0, 0.0, 0.0))
                     }
                 })
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    this@DisplayRoutePerformanceActivity,
-                    "Failed to load buses for $routeName",
-                    Toast.LENGTH_SHORT
-                ).show()
-                android.util.Log.e("DisplayRoutePerf", "Error loading buses: ${error.message}")
+                android.util.Log.e("TotalBusFleetPerf", "Error loading income for $busPlate: ${error.message}")
+                onComplete(BusMetrics(0, 0.0, 0.0, 0.0, 0.0))
             }
         })
     }
 
     private fun calculateMetrics(
         incomeSnapshot: DataSnapshot,
-        expensesSnapshot: DataSnapshot,
-        busCount: Int
-    ): RouteMetrics {
-        var totalRevenue = 0.0
-        var totalExpense = 0.0
+        expensesSnapshot: DataSnapshot
+    ): BusMetrics {
         var totalTrips = 0
+        var totalIncome = 0.0
+        var totalExpenses = 0.0
 
-        android.util.Log.d("DisplayRoutePerf", "Calculating metrics - Income children: ${incomeSnapshot.childrenCount}, Expense children: ${expensesSnapshot.childrenCount}")
-
-        // Parse income data - structure: routeName/dd-MM-yyyy/tripId/{income, num_trips}
+        // Parse income data - structure: busPlate/dd-MM-yyyy/tripId/{num_trips, income}
         for (dateSnapshot in incomeSnapshot.children) {
             val dateKey = dateSnapshot.key ?: continue
-            android.util.Log.d("DisplayRoutePerf", "Processing income date: $dateKey")
 
             if (isDateInRangeForIncome(dateKey)) {
-                android.util.Log.d("DisplayRoutePerf", "Date $dateKey is in range")
                 for (tripSnapshot in dateSnapshot.children) {
                     val tripData = tripSnapshot.value as? Map<*, *> ?: continue
-                    val income = (tripData["income"] as? Number)?.toDouble() ?: 0.0
                     val numTrips = (tripData["num_trips"] as? Long)?.toInt() ?: 0
+                    val income = (tripData["income"] as? Number)?.toDouble() ?: 0.0
 
-                    totalRevenue += income
                     totalTrips += numTrips
-                    android.util.Log.d("DisplayRoutePerf", "Added income: $income, trips: $numTrips")
+                    totalIncome += income
                 }
-            } else {
-                android.util.Log.d("DisplayRoutePerf", "Date $dateKey is NOT in range")
             }
         }
 
-        // Parse expenses data - structure: routeName/MM-yyyy/total_expenses
+        // Parse expenses data - structure: busPlate/MM-yyyy/total_expenses
         for (monthSnapshot in expensesSnapshot.children) {
             val monthKey = monthSnapshot.key ?: continue
-            android.util.Log.d("DisplayRoutePerf", "Processing expense month: $monthKey")
 
             if (isDateInRangeForExpenses(monthKey)) {
-                android.util.Log.d("DisplayRoutePerf", "Month $monthKey is in range")
-                val expense = (monthSnapshot.child("total_expenses").value as? Number)?.toDouble() ?: 0.0
-                totalExpense += expense
-                android.util.Log.d("DisplayRoutePerf", "Added expense: $expense")
-            } else {
-                android.util.Log.d("DisplayRoutePerf", "Month $monthKey is NOT in range")
+                val expenses = (monthSnapshot.child("total_expenses").value as? Number)?.toDouble() ?: 0.0
+                totalExpenses += expenses
             }
         }
 
-        val profitMargin = if (totalRevenue > 0) {
-            ((totalRevenue - totalExpense) / totalRevenue) * 100
+        val netProfit = totalIncome - totalExpenses
+        val profitMargin = if (totalIncome > 0) {
+            (netProfit / totalIncome) * 100
         } else {
             0.0
         }
 
-        // Calculate revenue per bus
-        val revenuePerBus = if (busCount > 0) {
-            totalRevenue / busCount
-        } else {
-            0.0
-        }
-
-        android.util.Log.d("DisplayRoutePerf", "Final metrics - Revenue: $totalRevenue, Expense: $totalExpense, Trips: $totalTrips, Profit: $profitMargin%, RevPerBus: $revenuePerBus")
-
-        return RouteMetrics(
-            revenue = totalRevenue,
-            expense = totalExpense,
-            profitMargin = profitMargin,
-            tripVolume = totalTrips,
-            revenuePerBus = revenuePerBus
+        return BusMetrics(
+            totalTrips = totalTrips,
+            totalIncome = totalIncome,
+            totalExpenses = totalExpenses,
+            netProfit = netProfit,
+            profitMargin = profitMargin
         )
     }
 
@@ -485,24 +484,31 @@ class DisplayRoutePerformanceActivity : AppCompatActivity() {
         return false
     }
 
-    private fun displayMetrics(metrics: RouteMetrics) {
-        android.util.Log.d("DisplayRoutePerf", "Displaying metrics - Revenue: ${metrics.revenue}, Expense: ${metrics.expense}, Profit: ${metrics.profitMargin}%, Trips: ${metrics.tripVolume}, RevPerBus: ${metrics.revenuePerBus}")
+    private fun displayMetrics(metrics: FleetBusMetrics) {
+        android.util.Log.d("TotalBusFleetPerf", "Displaying fleet metrics: $metrics")
 
-        totalRevenueTextView.text = "KSh ${String.format("%.2f", metrics.revenue)}"
-        totalExpensesTextView.text = "KSh ${String.format("%.2f", metrics.expense)}"
-        profitMarginTextView.text = "${String.format("%.1f", metrics.profitMargin)}%"
-        tripVolumeTextView.text = "${metrics.tripVolume}"
-        revenuePerBusTextView.text = "KSh ${String.format("%.2f", metrics.revenuePerBus)}"
+        totalTripsTextView.text = "${metrics.totalTrips}"
+        totalIncomeTextView.text = "KSh ${String.format("%.2f", metrics.totalIncome)}"
+        totalExpensesTextView.text = "KSh ${String.format("%.2f", metrics.totalExpenses)}"
+        netProfitTextView.text = "KSh ${String.format("%.2f", metrics.netProfit)}"
+        profitMarginTextView.text = "${String.format("%.2f", metrics.profitMargin)}%"
 
-        Toast.makeText(this, "Metrics loaded successfully", Toast.LENGTH_SHORT).show()
-        android.util.Log.d("DisplayRoutePerf", "Display completed successfully")
+        Toast.makeText(this, "Fleet metrics loaded successfully", Toast.LENGTH_SHORT).show()
     }
 
-    data class RouteMetrics(
-        val revenue: Double,
-        val expense: Double,
-        val profitMargin: Double,
-        val tripVolume: Int,
-        val revenuePerBus: Double
+    data class BusMetrics(
+        val totalTrips: Int,
+        val totalIncome: Double,
+        val totalExpenses: Double,
+        val netProfit: Double,
+        val profitMargin: Double
+    )
+
+    data class FleetBusMetrics(
+        val totalTrips: Int,
+        val totalIncome: Double,
+        val totalExpenses: Double,
+        val netProfit: Double,
+        val profitMargin: Double
     )
 }

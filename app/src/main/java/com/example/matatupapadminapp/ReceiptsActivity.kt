@@ -70,9 +70,8 @@ class ReceiptsActivity : AppCompatActivity() {
         }
 
         fleetPerformanceCard.setOnClickListener {
-            // TODO: Navigate to Fleet Performance Activity
-            // val intent = Intent(this, FleetPerformanceActivity::class.java)
-            // startActivity(intent)
+            val intent = Intent(this, FleetPerformanceActivity::class.java)
+            startActivity(intent)
         }
 
         // Trip cards navigation
