@@ -98,7 +98,7 @@
                 android:padding="30dp"
                 android:textColor="#000000"
                 android:textColorHighlight="#0B0707"
-                android:textColorHint="#000000"
+                android:textColorHint="#636363"
                 tools:ignore="TextFields" />
 
         </androidx.cardview.widget.CardView>

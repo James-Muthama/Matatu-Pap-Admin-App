@@ -114,7 +114,7 @@
                     android:padding="20dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
-                    android:textColorHint="#000000"
+                    android:textColorHint="#808080"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     tools:ignore="TextFields" />
@@ -161,7 +161,7 @@
                     android:padding="20dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
-                    android:textColorHint="#000000"
+                    android:textColorHint="#808080"
                     tools:ignore="TextFields" />
 
                 <androidx.cardview.widget.CardView

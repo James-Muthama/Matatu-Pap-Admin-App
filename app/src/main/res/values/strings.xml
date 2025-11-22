@@ -222,8 +222,8 @@
     <string name="no_of_routes_txt">Active Routes</string>
     <string name="n0_of_buses_txt">Active Buses</string>
 
-    <string name="txt_check_bus_stats">Total Bus Performance</string>
-    <string name="txt_check_route_stats">Total Route Performance</string>
+    <string name="txt_check_bus_stats">All Busses Performance</string>
+    <string name="txt_check_route_stats">All Routes Performance</string>
 
     <string name="txt_profit_mrgn">Profit Margin</string>
 </resources>

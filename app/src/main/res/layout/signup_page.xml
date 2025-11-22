@@ -114,7 +114,7 @@
                     android:padding="10dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
-                    android:textColorHint="#000000"
+                    android:textColorHint="#808080"
                     tools:ignore="TextFields" />
 
 
@@ -142,7 +142,7 @@
                     android:padding="10dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
-                    android:textColorHint="#000000"
+                    android:textColorHint="#808080"
                     tools:ignore="TextFields" />
 
                 <TextView
@@ -170,7 +170,7 @@
                     android:padding="10dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
-                    android:textColorHint="#000000"
+                    android:textColorHint="#808080"
                     tools:ignore="TextFields" />
 
                 <TextView
@@ -198,7 +198,7 @@
                     android:padding="10dp"
                     android:textColor="#000000"
                     android:textColorHighlight="#0B0707"
-                    android:textColorHint="#000000"
+                    android:textColorHint="#808080"
                     tools:ignore="TextFields" />
 
                 <androidx.cardview.widget.CardView
